@@ -1,25 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import '../../index.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Container, Row, Col} from 'react-bootstrap'
+import '../Header'
+import '../MainMenu'
+import '../Path'
+import { Header } from '../Header';
+import { MainMenu } from '../MainMenu';
+import { Path } from '../Path';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className="App" fluid="true">
+      <Row>
+        <Header name="ABC"></Header>
+      </Row>
+      <Row style={{minHeight: '100vh'}}>
+        <Col lg="2" md="2" sm="3" xs="3" className="nopadding">
+          <MainMenu></MainMenu>
+        </Col>
+        <Col lg="10" md="10" sm ="9" xs="9" >
+          <Row>
+            <Path path="abc/cde/efg"></Path>
+          </Row>
+          <Row>
+            <div>
+              Children will be placed here
+            </div>
+          </Row>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
