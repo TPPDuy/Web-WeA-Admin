@@ -20,11 +20,10 @@ code {
 .Header-container{
   color: #000000;
   display: flex;
-  width: 100%;
   flex-direction: row;
   align-items: center;
   background-color: #ffffff;
-  padding: 10px;
+  padding: 10px 15px 10px 15px;
 }
 
 .Header-logo{
@@ -32,6 +31,23 @@ code {
   max-height: 41px;
   float: left;
 }
+.Transparent-button {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+.button:active {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
 .Header-logo-part{
   display: flex;
   align-items: center;
@@ -51,7 +67,7 @@ code {
   align-items: flex-start;
   background-color: #4F4F4F;
   padding-left: 30px;
-  min-height: 100vh;
+  height: 100%;
 }
 
 .MainMenu-item-title{
@@ -63,7 +79,7 @@ code {
 .MainMenu-icon{
   margin: auto;
   margin-left: 0;
-  margin-right: 20px;
+  margin-right: 13px;
   width: 30px;
   text-align: center;
 }
@@ -86,6 +102,30 @@ code {
 
 .Path-text{
   color: #000000;
-  font-size: 14px;
+  font-size: 16px;
   float: left;
+  padding-left: 15px;
+  width: 100%;
+}
+
+.ComponentContainer{
+  margin: 23px;
+  width: 100%;
+}
+.ComponentContainer-title{
+  background-color: #E0E0E0;
+  padding: 13px;
+  color: #000000;
+  font-size: 16px;
+  border: 1px solid #828282;
+  border-bottom: 0px;
+  box-sizing: border-box;
+  text-align: start;
+  align-content: center;
+}
+.ComponentContainer-body{
+  border: 1px solid #828282;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  padding: 13px;
 }
