@@ -10,15 +10,12 @@ export default class App extends Component {
     return (
       <Router>
           <Switch>
-            <Route path="/thongke">
-              <Statistic/>
+            <Route exact path="/">
+              <Redirect to="/thongke"/>
             </Route>
-            <Route path="/danhmuc">
-              <Category/>
-            </Route>
-            <Route path="/login">
-              <Login/>
-            </Route>
+            <Route path="/thongke" component={Statistic} />
+            <Route path="/danhmuc" component={Category} />
+            <Route path="/login" component={Login} />            
           </Switch>
       </Router>
     );

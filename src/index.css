@@ -166,8 +166,8 @@ code {
   justify-content: center;
 }
 .ImageThumbnail{
-  max-width: 58px;
-  max-height: 46px;
+  max-width: 87px;
+  max-height: 69px;
   border-radius: 3px;
 }
 .StatisticTextButton{
@@ -185,4 +185,7 @@ code {
 .StatisticTextButton-active{
   color: white !important;
   background-color: #333333 !important;
+}
+.ant-switch-checked{
+  background-color: #333 !important;
 }

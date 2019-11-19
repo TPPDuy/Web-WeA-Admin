@@ -3,11 +3,11 @@ import { CategorySearchAdd } from '../components/CategorySearchAdd';
 import { CategoryTableTitle } from '../components/CategoryTableTitle';
 import ComponentContainer from '../components/ComponentContainer';
 import PageTemplate from '../components/PageTemplate'
+import {Categories} from '../components/Categories'
 
 class Category extends Component {
     render() {
-        console.log('Category rendered');
-        return(
+        return (
             <PageTemplate>
                 <ComponentContainer selectedPart="Danh mục">
                     <div className="InputContainer">
@@ -15,6 +15,7 @@ class Category extends Component {
                     </div>
                     <div style={{ width: '100%' }}>
                         <CategoryTableTitle></CategoryTableTitle>
+                        <Categories></Categories>
                     </div>
                 </ComponentContainer>
             </PageTemplate>
