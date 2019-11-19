@@ -25,29 +25,11 @@ code {
   background-color: #ffffff;
   padding: 10px 15px 10px 15px;
 }
-
 .Header-logo{
   max-width: 65px;
   max-height: 41px;
   float: left;
 }
-.Transparent-button {
-  background-color: Transparent;
-  background-repeat:no-repeat;
-  border: none;
-  cursor:pointer;
-  overflow: hidden;
-  outline:none;
-}
-.button:active {
-  background-color: Transparent;
-  background-repeat:no-repeat;
-  border: none;
-  cursor:pointer;
-  overflow: hidden;
-  outline:none;
-}
-
 .Header-logo-part{
   display: flex;
   align-items: center;
@@ -61,6 +43,7 @@ code {
   justify-content: right;
   align-items: center;
 }
+
 .MainMenu-container{
   display: flex;
   flex-direction: column;
@@ -128,4 +111,48 @@ code {
   box-sizing: border-box;
   background-color: #ffffff;
   padding: 13px;
+}
+.InputContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 40%;
+  margin-left: auto;
+  margin-right: 0;
+}
+.InputBorder{
+  border: 1px solid #4F4F4F;
+  box-sizing: border-box;
+}
+.NoBorderBootstrap{
+  border: 0px solid #00000000;
+  box-sizing: border-box;
+}
+.TableTitle-center-align{
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+.TableTitle-left-align{
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: left;
+}
+.TableTitle-right-align{
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+}
+.Table-title-action{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ImageThumbnail{
+  max-width: 58px;
+  max-height: 46px;
+  border-radius: 3px;
 }
