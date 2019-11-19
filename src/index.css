@@ -189,3 +189,34 @@ code {
 .ant-switch-checked{
   background-color: #333 !important;
 }
+.ant-input{
+  border-radius: 0 !important;
+  height: 36px !important;
+  border: 1px solid #333 !important;
+}
+.StatisticLine{
+  width: 100%;
+  height: 1px;
+  background-color: #BDBDBD;
+}
+.nomargin{
+  margin: 0 !important;
+}
+.StatisticFrame{
+  width: 263px;
+  height: 141px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Gilroy-Bold;
+  color: white;
+}
+.StatisticFrameLogo{
+  height: 106px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
