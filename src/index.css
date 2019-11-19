@@ -79,6 +79,7 @@ code {
   padding: 12px 0 12px 20px;
   cursor: pointer;  
   width: 100%;
+  text-decoration: none !important;
 }
 .MainMenu-item:hover{
   background-color: #333333;
@@ -92,7 +93,7 @@ code {
   background-color: #333333;
   color: #ffffff;
 }
-.MainMenuIconActive{
+.MainMenuItemActive .MainMenu-icon{
   color: #F2994A;
 }
 
@@ -123,7 +124,7 @@ code {
   border: 1px solid #828282;
   box-sizing: border-box;
   background-color: #ffffff;
-  padding: 13px;
+  padding: 13px 30px;
 }
 .InputContainer{
   display: flex;
@@ -168,4 +169,20 @@ code {
   max-width: 58px;
   max-height: 46px;
   border-radius: 3px;
+}
+.StatisticTextButton{
+  display: inline-block;
+  padding: 10px 14px;
+  border: 1px solid #333333;
+  color: black;
+  background-color: white;
+  cursor: pointer;
+}
+.StatisticTextButton:hover {
+  color: white !important;
+  background-color: #333333 !important;
+}
+.StatisticTextButton-active{
+  color: white !important;
+  background-color: #333333 !important;
 }

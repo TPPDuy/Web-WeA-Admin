@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Container, Row, Col} from 'react-bootstrap'
 
-export const Header = ({name, onCollapse=f=>f}) => 
+const Header = ({name, onCollapse = f => f}) => 
     <Container fluid="true">
         <Row className="Header-container">
             <Col lg="2" md="3" sm="4" xs="5" className="nopadding">
@@ -27,3 +27,5 @@ Header.propTypes = {
     name: PropTypes.string,
     onCollapse: PropTypes.func
 }
+
+export default Header
