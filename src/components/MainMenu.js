@@ -16,7 +16,7 @@ export const MainMenu = () =>
             <div /*to="/" activeStyle={MainMenuItemActive}*/>
                 <div className="MainMenu-item">
                     <div className="MainMenu-icon">
-                        <FontAwesomeIcon icon={faChartBar}/>
+                        <FontAwesomeIcon icon={faChartBar} />
                     </div>
                     <div>Thống kê</div>
                 </div>

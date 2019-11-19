@@ -9,7 +9,7 @@ export const Header = ({name, onCollapse=f=>f}) =>
             <Col lg="2" md="3" sm="4" xs="5" className="nopadding">
                 <div className="Header-logo-part">
                     <img src="/images/Logo.svg" className="Header-logo" alt="logo"/>
-                    <div style={{float: 'right', marginRight:'15px'}} onClick={onCollapse}>
+                    <div style={{float: 'right', marginRight:'15px', cursor: 'pointer'}} onClick={onCollapse}>
                         <img src="/images/hamburgerButton.svg"  alt="expand"></img>
                     </div>
                 </div>
