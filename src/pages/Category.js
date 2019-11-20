@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { SearchAddForm } from '../components/SearchAddForm';
-import { CategoryTableTitle } from '../components/CategoryTableTitle';
+import { CategoryTableTitle } from '../components/TableTitle';
 import ComponentContainer from '../components/ComponentContainer';
 import PageTemplate from '../components/PageTemplate'
-import {Categories} from '../components/Categories'
+import {Categories} from '../components/ListRecords'
 
 class Category extends Component {
     render() {

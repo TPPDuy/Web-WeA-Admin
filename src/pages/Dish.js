@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { SearchAddForm } from '../components/SearchAddForm';
-import { DishTableTitle } from '../components/DishTableTitle';
+import { DishTableTitle } from '../components/TableTitle';
 import ComponentContainer from '../components/ComponentContainer';
 import PageTemplate from '../components/PageTemplate'
-import {Dishes} from '../components/Dishes'
+import {Dishes} from '../components/ListRecords'
 
 class Dish extends Component {
     render() {
