@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons'
 import '../index.css'
 
-export const SearchAddForm = () =>
+export const SearchAddForm = ({onShowModal=f=>f}) =>
     <InputGroup className="mb-3 InputBorder">
         <FormControl
         placeholder="Tìm kiếm"
@@ -19,7 +19,7 @@ export const SearchAddForm = () =>
         </InputGroup.Append>
 
         <InputGroup.Append >
-            <Button variant="black" style={{border: '0px solid #00000000', boxSizing: 'border-box'}}>
+            <Button variant="black" style={{border: '0px solid #00000000', boxSizing: 'border-box'}} onClick={onShowModal}>
                 <FontAwesomeIcon icon={faPlus} style={{color:'#000000'}}/>
             </Button>
         </InputGroup.Append>

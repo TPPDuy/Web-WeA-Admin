@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {getPageData} from '../utils/utils'
 import { Pagination } from 'antd';
+import { CategoryModal } from "./Modal";
 
 export const Categories = ({ categories = [], onChangeActiveStatus = f => f, onRemove = f => f }) =>
     <div>
