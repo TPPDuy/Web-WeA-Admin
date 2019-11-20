@@ -6,6 +6,7 @@ import Statistic from '../../pages/Statistic'
 import Category from '../../pages/Category'
 import Bill from '../../pages/Bill'
 
+import Dish from '../../pages/Dish'
 export default class App extends Component {
   render(){
     return (
@@ -17,6 +18,7 @@ export default class App extends Component {
             <Route path="/thongke" component={Statistic} />
             <Route path="/danhmuc" component={Category} />
             <Route path="/hoadon" component={Bill} />
+            <Route path="/monan" component={Dish}/>
             <Route path="/login" component={Login} />            
           </Switch>
       </Router>

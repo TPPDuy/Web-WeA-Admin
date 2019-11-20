@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons'
 import '../index.css'
 
-export const CategorySearchAdd = () =>
+export const SearchAddForm = () =>
     <InputGroup className="mb-3 InputBorder">
         <FormControl
         placeholder="Tìm kiếm"
