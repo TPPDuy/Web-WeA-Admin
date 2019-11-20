@@ -1,13 +1,12 @@
 import React from 'react'
-import { Col } from 'react-bootstrap'
 
-const Frame = ({ title, value, bgColor, url }) => (
+const Frame = ({ title, value, bgColor, url, alt }) => (
     <div className="StatisticFrame"
         style={{
             backgroundColor: bgColor
         }}
     >
-        <img className="StatisticFrameLogo" src={process.env.PUBLIC_URL + url} />
+        <img className="StatisticFrameLogo" src={process.env.PUBLIC_URL + url} alt={alt}/>
         <span style={{
             fontSize: '20px',
             marginTop: '18px',

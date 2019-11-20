@@ -191,7 +191,7 @@ code {
 }
 .ant-input{
   border-radius: 0 !important;
-  height: 36px !important;
+  height: 38px !important;
   border: 1px solid #333 !important;
 }
 .StatisticLine{
@@ -219,4 +219,16 @@ code {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.form-control{
+  height: 38px !important;
+}
+.btn{
+  border-radius: 0px !important;
+}
+.ant-cascader-picker{
+  font-size: 16px !important;
+}
+.ant-calendar-range-picker-input{
+  font-size: 16px !important;
 }

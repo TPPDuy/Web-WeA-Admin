@@ -6,7 +6,7 @@ class Login extends Component {
         return(
             <Container fluid="true">
                 <div style={{minHeight: '100vh'}} className="d-flex flex-row justify-content-center align-items-center">
-                    <img src={process.env.PUBLIC_URL+'/images/login-sample.gif'} />
+                    <img src={process.env.PUBLIC_URL+'/images/login-sample.gif'} alt="stupid dog"/>
                 </div>
             </Container>
         )

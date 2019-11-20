@@ -3,7 +3,6 @@ import { Container, Row, Col } from 'react-bootstrap'
 import Header from './Header'
 import MainMenu from './MainMenu'
 import Path from './PathInfo'
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 class DashBoard extends Component {
     constructor(props) {
