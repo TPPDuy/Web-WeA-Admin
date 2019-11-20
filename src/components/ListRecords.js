@@ -1,6 +1,7 @@
 import { Category, Dish } from "./Record";
 import React from 'react'
 import PropTypes from 'prop-types'
+import { CategoryModal } from "./Modal";
 
 export const Categories = ({categories = [], onChangeActiveStatus=f=>f, onRemove=f=>f}) =>
     <div>

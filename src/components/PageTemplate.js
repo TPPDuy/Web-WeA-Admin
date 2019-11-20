@@ -8,7 +8,7 @@ class DashBoard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            collapseSideBar: false
+            collapseSideBar: false,
         }
         this.collapse = this.collapse.bind(this)
     }
@@ -17,7 +17,7 @@ class DashBoard extends Component {
         this.setState(prevState => ({ collapseSideBar: !prevState.collapseSideBar }))
     }
     render() {
-        const { collapseSideBar } = this.state
+        const { collapseSideBar} = this.state
         const { collapse } = this
         return (
             <Container className="App" fluid="true">
