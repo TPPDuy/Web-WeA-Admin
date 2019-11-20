@@ -14,7 +14,7 @@ class SearchPanel extends Component {
             label: 'Tổng tiền'
         },
         {
-            value: '4',
+            value: '3',
             label: 'Nhân viên phục vụ'
         }
     ]
@@ -35,7 +35,8 @@ class SearchPanel extends Component {
                     aria-describedby="basic-addon2"
                     style={{ border: '1px solid #000000', boxSizing: 'border-box' }}
                     value={searchInput} 
-                    onChange={onSearchInput}/>
+                    onChange={onSearchInput}
+                />
                 <DatePicker onDateRange={onDateRange} onSubmit={onSubmit}/>
             </InputGroup>
         )

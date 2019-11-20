@@ -232,3 +232,16 @@ code {
 .ant-calendar-range-picker-input{
   font-size: 16px !important;
 }
+.ant-pagination{
+  font-size: 16px !important;
+}
+.ant-pagination-simple .ant-pagination-simple-pager{
+  height: 38px !important;  
+}
+.ant-pagination-simple .ant-pagination-simple-pager input{
+  border-radius: 0 !important;
+}
+.ant-pagination-simple .ant-pagination-prev, .ant-pagination-simple .ant-pagination-next{
+  vertical-align: middle !important;
+  height: 30px !important;
+}

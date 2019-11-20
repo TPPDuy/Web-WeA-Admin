@@ -86,3 +86,36 @@ export const DishTableTitle = ({onSort=f=>f}) =>
 DishTableTitle.propTypes = {
     onSort: PropTypes.func
 }
+export const BillTableTitle = ({onSort=f=>f}) =>
+<Container fluid="true">
+    <Row>
+        <div style={{height:'1px', width:'100%', backgroundColor:'#F2F2F2', marginBottom:'20px'}}></div>
+    </Row>
+    <Row>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
+            <FontAwesomeIcon icon={faFile} style={{color:'#333333'}}/>
+        </Col>
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div>Mã hóa đơn</div>
+        </Col>
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-right-align">
+            <div>Tổng tiền</div>
+        </Col>        
+        <Col lg ="3" md="3" sm="3" xs="3" className="TableTitle-right-align">
+            <div>Ngày tạo</div>
+        </Col>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-left-align" onClick={onSort} style={{cursor: "pointer"}}>
+            <FontAwesomeIcon icon={faSort}/>
+        </Col>
+        <Col lg ="3" md="3" sm="3" xs="3" className="TableTitle-center-align">
+            <div>Nhân viên phục vụ</div>
+        </Col>
+    </Row>
+    <Row>
+        <div style={{width:'100%', height:'2px', backgroundColor:'#E0E0E0', marginTop:'20px'}}></div>
+    </Row>
+</Container>
+
+BillTableTitle.propTypes = {
+    onSort: PropTypes.func
+}
