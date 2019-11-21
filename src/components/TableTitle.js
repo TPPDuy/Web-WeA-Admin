@@ -29,8 +29,8 @@ export const CategoryTableTitle = ({onSort=f=>f}) =>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
             <div>Cập nhật</div>
         </Col>
-        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align" onClick={onSort}>
-            <FontAwesomeIcon icon={faSort}/>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align">
+            <FontAwesomeIcon icon={faSort} onClick={onSort}/>
         </Col>
         <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
             <div>#</div>
@@ -40,9 +40,6 @@ export const CategoryTableTitle = ({onSort=f=>f}) =>
         <div style={{width:'100%', height:'2px', backgroundColor:'#E0E0E0', marginTop:'20px'}}></div>
     </Row>
 </Container>
-CategoryTableTitle.propTypes = {
-    onSort: PropTypes.func
-}
 
 export const DishTableTitle = ({onSort=f=>f}) =>
 <Container fluid="true">
@@ -71,8 +68,8 @@ export const DishTableTitle = ({onSort=f=>f}) =>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
             <div>Cập nhật</div>
         </Col>
-        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align" onClick={onSort}>
-            <FontAwesomeIcon icon={faSort}/>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align">
+            <FontAwesomeIcon icon={faSort} onClick={onSort}/>
         </Col>
         <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
             <div>#</div>
@@ -83,6 +80,9 @@ export const DishTableTitle = ({onSort=f=>f}) =>
     </Row>
 </Container>
 
+CategoryTableTitle.propTypes = {
+    onSort: PropTypes.func
+}
 DishTableTitle.propTypes = {
     onSort: PropTypes.func
 }

@@ -267,3 +267,8 @@ code {
   flex-direction: row;
   align-items: center;
 }
+.transparent-button{
+  border: 0px solid #00000000;
+  box-sizing: border-box;
+  background-color: #00000000;
+}
