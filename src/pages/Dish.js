@@ -26,6 +26,7 @@ class Dish extends Component {
                     isActive: 1,
                     createdTime: 1574192100000,
                     updatedTime: 1574195700000,
+                    describe: ""
                 },
                 {
                     id: '02',
@@ -38,6 +39,7 @@ class Dish extends Component {
                     isActive: 1,
                     createdTime: 1574196100000,
                     updatedTime: 1574199700000,
+                    describe: ""
                 },
                 {
                     id: '03',
@@ -50,6 +52,7 @@ class Dish extends Component {
                     isActive: 1,
                     createdTime: 1574113100000,
                     updatedTime: 1574117700000,
+                    describe: ""
                 },
                 {
                     id: '04',
@@ -62,6 +65,7 @@ class Dish extends Component {
                     isActive: 1,
                     createdTime: 1574213100000,
                     updatedTime: 1574917700000,
+                    describe: ""
                 }
             ]
         }
@@ -76,6 +80,7 @@ class Dish extends Component {
         this.onClickRecord = this.onClickRecord.bind(this)
         this.removeSelectedDish = this.removeSelectedDish.bind(this)
         this.onCancel = this.onCancel.bind(this)
+        this.onTextChange = this.onTextChange.bind(this)
     }
 
     changeModalVisibility() {
@@ -85,8 +90,37 @@ class Dish extends Component {
         this.setState({ modalVisibility: true })
     }
     onOk() {
-        console.log("Add / Update new dish");
+        this.setState(prevState => {
+            if (prevState.selectedDish.id != undefined && prevState.selectedDish.id != null) {
+                return ({
+                    dishes: prevState.dishes.map(dish =>
+                        (dish.id == prevState.selectedDish.id) ?
+                            {
+                                ...dish,
+                                name: prevState.selectedDish.name,
+                                price: prevState.selectedDish.price,
+                                category: prevState.selectedDish.category,
+                                describe: prevState.selectedDish.describe
+                            } : dish)
+                })
+            }
+            else {
+                return ({
+                    dishes: [
+                        ...prevState.dishes,
+                        {
+                            ...prevState.selectedDish,
+                            id: Math.random(),
+                            isActive: 1,
+                            createdTime: new Date(),
+                            updatedTime: new Date()
+                        }
+                    ]
+                })
+            }
+        })
         this.changeModalVisibility()
+        this.removeSelectedDish()
     }
     onCancel() {
         this.removeSelectedDish()
@@ -124,9 +158,29 @@ class Dish extends Component {
             modalVisibility: dish ? true : false
         })
     }
+    onTextChange(value, field) {
+        switch (field) {
+            case "name":
+                this.setState(prevState => ({
+                    selectedDish: { ...prevState.selectedDish, name: value }
+                }));
+                break;
+            case "price":
+                this.setState(prevState => ({
+                    selectedDish: { ...prevState.selectedDish, price: value }
+                }));
+                break;
+            case "describe":
+                this.setState(prevState => ({
+                    selectedDish: { ...prevState.selectedDish, describe: value }
+                }));
+                break;
+        }
+
+    }
     render() {
         const { modalVisibility, dishes, pageNo, searchKey, selectedDish } = this.state;
-        const { onShowModal, onOk, onSort, onRemove, onChangePage, onChangeStatus, onInputSearchKey, onClickRecord, onCancel } = this
+        const { onShowModal, onOk, onSort, onRemove, onChangePage, onChangeStatus, onInputSearchKey, onClickRecord, onCancel, onTextChange } = this
         return (
             <PageTemplate>
                 <ComponentContainer selectedPart="Món ăn">
@@ -145,7 +199,8 @@ class Dish extends Component {
                         <DishModal selectedDish={selectedDish}
                             visibility={modalVisibility}
                             onCancel={onCancel}
-                            onOk={onOk}></DishModal>
+                            onOk={onOk}
+                            onTextChange={onTextChange}></DishModal>
                     </div>
                 </ComponentContainer>
             </PageTemplate>

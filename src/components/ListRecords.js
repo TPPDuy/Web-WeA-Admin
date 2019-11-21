@@ -1,4 +1,4 @@
-import { Category, Dish, Bill } from "./Record";
+import { Category, Dish, Bill, Employee } from "./Record";
 import React from 'react'
 import PropTypes from 'prop-types'
 import { getPageData } from '../utils/utils'
@@ -55,6 +55,7 @@ export const Dishes = ({ dishes = [], pageNo, searchKey, onChangeActiveStatus = 
     )
 }
 
+
 export const Bills = ({
     dateFilter,
     searchCriteria,
@@ -84,9 +85,8 @@ export const Bills = ({
             });
         }
     }
-    else {
-        if (dateFilter != 0) {
-            //console.log(dateFilter);
+    else{
+        if(dateFilter != 0) {       
             const a = new Date(dateFilter)
             renderedData = renderedData.filter(e => {
                 const current = new Date(e.date);
@@ -116,47 +116,59 @@ export const Bills = ({
         </div>
     )
 }
+
+export const Employees = ({ 
+    employees = [], 
+    onChangeActiveStatus = f => f, 
+    onRemove = f => f, 
+    onEdit = f => f,
+    pageNo, 
+    dateSort,
+    handlePagination = f => f }) => {
+    let renderedDate = getPageData(employees, pageNo, 10);
+    if(dateSort !== 0){
+        renderedDate.sort((a,b) => (Date.parse(b.createdTime) - Date.parse(a.createdTime))*dateSort)
+    }
+    return(
+        <div style={{width: '100%'}}>
+            {(renderedDate.length === 0) ?
+                <p style={{ marginTop: '30px' }}>Danh sách rỗng</p> :
+                renderedDate.map((employee, index) =>
+                    <Employee 
+                        key={employee.id}
+                        index={(pageNo - 1) * 10 + index + 1}
+                        employee={employee}
+                        onChangeActiveStatus={() => onChangeActiveStatus(employee.id, !employee.isActive)}
+                        onEdit= {() => onEdit(employee)}
+                        onRemove={() => onRemove(employee.id)} 
+                        />
+                )
+            }
+            <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
+                    <Pagination simple defaultCurrent={1} total={employees.length} onChange={handlePagination}/>
+                </div>
+        </div>
+    )
+}
+
 Categories.propTypes = {
     categories: PropTypes.array,
     onChangeActiveStatus: PropTypes.func,
     onRemove: PropTypes.func
 }
 
-
 Dishes.propTypes = {
     categories: PropTypes.array,
     onChangeActiveStatus: PropTypes.func,
     onRemove: PropTypes.func
 }
+
 Bills.propTypes = {
     bills: PropTypes.array
 }
 
-Bills.defaultProps = {
-    bills: [
-        {
-            id: '01',
-            total: 1500000,
-            date: 1574113100000,
-            name: 'Nguyen Van A'
-        },
-        {
-            id: '02',
-            total: 945000,
-            date: 1574917700000,
-            name: 'Le Thi C'
-        },
-        {
-            id: '03',
-            total: 250000,
-            date: 1574199700000,
-            name: 'Tran Thi Hai D'
-        },
-        {
-            id: '04',
-            total: 2900000,
-            date: 1574195700000,
-            name: 'Nguyen Van A'
-        }
-    ]
+Employees.propTypes = {
+    categories: PropTypes.array,
+    onChangeActiveStatus: PropTypes.func,
+    onRemove: PropTypes.func
 }

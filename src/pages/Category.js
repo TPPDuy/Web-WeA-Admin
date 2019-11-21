@@ -143,15 +143,36 @@ class Category extends Component {
         this.setState({ modalVisibility: true })
     }
     onOk(selected, title) {
-        console.log("Add / Update new category");
+        this.setState(prevState => {
+            if (prevState.selectedCategory.id != undefined && prevState.selectedCategory.id != null) {
+                return ({
+                    categories: prevState.categories.map(category =>
+                        category.id == prevState.selectedCategory.id ? { ...category, name: prevState.selectedCategory.name, updatedTime: new Date() } : category)
+                })
+            }
+            else {
+                return ({
+                    categories: [
+                        ...prevState.categories,
+                        {
+                            ...prevState.selectedCategory,
+                            id: Math.random(),
+                            isActive: 1,
+                            createdTime: new Date(),
+                            updatedTime: new Date()
+                        }
+                    ]
+                })
+            }
+        })
         this.changeModalVisibility()
         this.removeSelectedCategory()
     }
-    onCancel(){
+    onCancel() {
         this.removeSelectedCategory()
         this.changeModalVisibility()
     }
-    removeSelectedCategory(){
+    removeSelectedCategory() {
         this.setState({
             selectedCategory: undefined
         })
@@ -182,9 +203,9 @@ class Category extends Component {
             modalVisibility: category ? true : false
         })
     }
-    onTextChange(value){
+    onTextChange(value) {
         this.setState(prevState => ({
-            selectedCategory: { ...prevState.selectedCategory, name: value}
+            selectedCategory: { ...prevState.selectedCategory, name: value }
         }))
     }
 

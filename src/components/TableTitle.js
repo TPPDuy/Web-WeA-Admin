@@ -119,3 +119,41 @@ export const BillTableTitle = ({onSort=f=>f}) =>
 BillTableTitle.propTypes = {
     onSort: PropTypes.func
 }
+
+export const EmployeeTableTitle = ({onSort=f=>f}) =>
+<Container fluid="true">
+    <Row>
+        <div style={{height:'1px', width:'100%', backgroundColor:'#F2F2F2', marginBottom:'20px'}}></div>
+    </Row>
+    <Row>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
+            <FontAwesomeIcon icon={faFile} style={{color:'#333333'}}/>
+        </Col>
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div>Tên đăng nhập</div>
+        </Col>
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div>Tên đầy đủ</div>
+        </Col>
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div>Loại người dùng</div>
+        </Col>        
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div className="d-flex flex-row justify-content-center align-item-center">
+                <div>Ngày tạo</div>
+                <div style={{marginLeft: "1rem" , cursor: "pointer"}} onClick={onSort} >
+                    <FontAwesomeIcon icon={faSort}/>
+                </div>
+            </div>
+        </Col>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
+            <div>Trạng thái</div>
+        </Col>
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div>#</div>
+        </Col>
+    </Row>
+    <Row>
+        <div style={{width:'100%', height:'2px', backgroundColor:'#E0E0E0', marginTop:'20px'}}></div>
+    </Row>
+</Container>
