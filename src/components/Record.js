@@ -4,7 +4,7 @@ import {Switch} from 'antd'
 import PropTypes from 'prop-types'
 import 'antd/dist/antd.css';
 
-export const Category = ({index=0, category, onChangeActiveStatus=f=>f, onRemove=f=>f}) =>
+export const Category = ({ index = 0, category, onChangeActiveStatus=f=>f, onRemove=f=>f}) =>
 <Container fluid="true">
     <Row style={{alignItems:'center', paddingTop:'20px', paddingBottom:'20px', backgroundColor:(index%2===0) ? 'rgba(242, 242, 242, 0.55)' : '#ffffff'}}>
         <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
@@ -103,6 +103,62 @@ export const Bill = ({index = 0 , bill}) =>
         </Col>
     </Row>
 </Container>
+
+
+export const Employee = ({ index = 0, employee, onChangeActiveStatus = f => f, onEdit = f => f, onRemove = f => f}) => {
+    
+    const typesOfEmployee = [
+        {
+            level: 1,
+            name: 'Nhân viên'
+        },
+        {
+            level: 2,
+            name: 'Quản lí'
+        },
+        {
+            level: 3,
+            name: 'Quản trị'
+        }
+    ]
+    return (
+    <Container fluid="true">
+        <Row style={{alignItems:'center', paddingTop:'20px', paddingBottom:'20px', backgroundColor:(index%2===0) ? 'rgba(242, 242, 242, 0.55)' : '#ffffff'}}>
+            <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
+                {index}
+            </Col>
+            <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+                <div>{employee.username}</div>
+            </Col>
+            <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+                <div>{employee.fullName}</div>
+            </Col>
+            <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+                <div>{(typesOfEmployee.find(e => e.level == employee.type)).name}</div>
+            </Col>
+            <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+                <div>{new Date(employee.createdTime).toLocaleString()}</div>
+            </Col>
+            <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
+                <Switch 
+                        checkedChildren="Y" 
+                        unCheckedChildren="N" 
+                        checked={(employee.isActive ? true : false)}
+                        onChange={onChangeActiveStatus}>
+                </Switch>
+            </Col>        
+            <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+                <button style={{backgroundColor:'#FED330', border:'0px solid', padding:'5px 10px'}}>
+                    <img src="/images/iconEdit.svg" alt="iconEdit" onClick={onEdit}></img>
+                </button>
+                <button style={{backgroundColor:'#EB5757', border:'0px solid', padding:'5px 10px'}}>
+                    <img src="/images/iconTrash.svg" alt="iconTrash" onClick={onRemove}></img>
+                </button>
+            </Col>
+        </Row>
+    </Container>
+    )
+}
 
 Category.propTypes = {
     index: PropTypes.number,
