@@ -235,6 +235,19 @@ code {
 .ant-calendar-range-picker-input{
   font-size: 16px !important;
 }
+.ant-pagination{
+  font-size: 16px !important;
+}
+.ant-pagination-simple .ant-pagination-simple-pager{
+  height: 38px !important;  
+}
+.ant-pagination-simple .ant-pagination-simple-pager input{
+  border-radius: 0 !important;
+}
+.ant-pagination-simple .ant-pagination-prev, .ant-pagination-simple .ant-pagination-next{
+  vertical-align: middle !important;
+  height: 30px !important;
+}
 .normal-button{
   border: 1px solid #333333;
   box-sizing: border-box;

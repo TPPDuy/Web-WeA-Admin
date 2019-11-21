@@ -11,7 +11,8 @@ export class DatePickerNoSpace extends Component {
         const {
             onDateRange,
             onSubmit
-        } = this.props
+        } 
+        = this.props
         
         return (
             <React.Fragment>
