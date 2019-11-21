@@ -108,6 +108,7 @@ code {
 .ComponentContainer{
   margin: 23px;
   width: 100%;
+  background-color:#C4C4C4;
 }
 .ComponentContainer-title{
   background-color: #E0E0E0;
@@ -169,6 +170,12 @@ code {
   max-width: 87px;
   max-height: 69px;
   border-radius: 3px;
+}
+.ImageThumbnail-modal{
+  width: 190px;
+  height: 190px;
+  border-radius: 3px;
+  margin: auto;
 }
 .StatisticTextButton{
   display: inline-block;
@@ -284,4 +291,9 @@ code {
   border: 0px solid #00000000;
   box-sizing: border-box;
   background-color: #00000000;
+}
+.name:hover{
+  text-decoration: underline;
+  font-size: 23px;
+  cursor: pointer;
 }

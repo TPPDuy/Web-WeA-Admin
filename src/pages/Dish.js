@@ -11,6 +11,9 @@ class Dish extends Component {
         super(props);
         this.state = {
             modalVisibility: false,
+            pageNo: 1,
+            searchKey: "",
+            selectedDish: undefined,
             dishes: [
                 {
                     id: '01',
@@ -62,44 +65,87 @@ class Dish extends Component {
                 }
             ]
         }
-        this.changeModalVisibility = this.changeModalVisibility.bind(this);
-        this.showModal = this.showModal.bind(this);
+        this.changeModalVisibility = this.changeModalVisibility.bind(this)
+        this.onShowModal = this.onShowModal.bind(this)
         this.onOk = this.onOk.bind(this)
         this.onSort = this.onSort.bind(this)
         this.onRemove = this.onRemove.bind(this)
+        this.onChangePage = this.onChangePage.bind(this)
+        this.onChangeStatus = this.onChangeStatus.bind(this)
+        this.onInputSearchKey = this.onInputSearchKey.bind(this)
+        this.onClickRecord = this.onClickRecord.bind(this)
+        this.removeSelectedDish = this.removeSelectedDish.bind(this)
+        this.onCancel = this.onCancel.bind(this)
     }
 
     changeModalVisibility() {
         this.setState(prevState => ({ modalVisibility: !prevState.modalVisibility }))
     }
-    showModal() {
+    onShowModal() {
         this.setState({ modalVisibility: true })
     }
     onOk() {
         console.log("Add / Update new dish");
         this.changeModalVisibility()
     }
-    onSort(){
+    onCancel() {
+        this.removeSelectedDish()
+        this.changeModalVisibility()
+    }
+    onSort() {
         this.setState(prevState => ({
             dishes: [...prevState.dishes].sort((a, b) => a["price"] < b["price"] ? -1 : 1)
         }))
     }
-    onRemove(id){
-        console.log("Remove dish: " + id)
+    removeSelectedDish() {
+        this.setState({
+            selectedDish: undefined
+        })
+    }
+    onRemove(id) {
+        this.setState(prevState => ({
+            dishes: prevState.dishes.filter(dish => dish.id != id)
+        }))
+    }
+    onChangeStatus(id) {
+        this.setState(prevState => ({
+            dishes: prevState.dishes.map(dish => dish.id != id ? dish : { ...dish, isActive: dish.isActive ? 0 : 1 })
+        }))
+    }
+    onChangePage(newPageNo) {
+        this.setState({ pageNo: newPageNo })
+    }
+    onInputSearchKey(key) {
+        this.setState({ searchKey: key.target.value })
+    }
+    onClickRecord(dish) {
+        this.setState({
+            selectedDish: dish,
+            modalVisibility: dish ? true : false
+        })
     }
     render() {
-        const { modalVisibility, dishes } = this.state;
-        const { changeModalVisibility, showModal, onOk, onSort, onRemove } = this
+        const { modalVisibility, dishes, pageNo, searchKey, selectedDish } = this.state;
+        const { onShowModal, onOk, onSort, onRemove, onChangePage, onChangeStatus, onInputSearchKey, onClickRecord, onCancel } = this
         return (
             <PageTemplate>
                 <ComponentContainer selectedPart="Món ăn">
                     <div className="InputContainer">
-                        <SearchAddForm onShowModal={showModal}></SearchAddForm>
+                        <SearchAddForm onShowModal={onShowModal} onInputSearchKey={onInputSearchKey}></SearchAddForm>
                     </div>
                     <div style={{ width: '100%' }}>
                         <DishTableTitle onSort={onSort}></DishTableTitle>
-                        <Dishes dishes={dishes} onRemove={onRemove}></Dishes>
-                        <DishModal visibility={modalVisibility} onCancel={changeModalVisibility} onOk={onOk}></DishModal>
+                        <Dishes dishes={dishes}
+                            pageNo={pageNo}
+                            searchKey={searchKey}
+                            onRemove={onRemove}
+                            onChangePage={onChangePage}
+                            onChangeActiveStatus={onChangeStatus}
+                            onClickRecord={onClickRecord}></Dishes>
+                        <DishModal selectedDish={selectedDish}
+                            visibility={modalVisibility}
+                            onCancel={onCancel}
+                            onOk={onOk}></DishModal>
                     </div>
                 </ComponentContainer>
             </PageTemplate>
