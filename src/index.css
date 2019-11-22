@@ -331,3 +331,7 @@ code {
   background-color: #F2994A !important;
   border: none !important;
 }
+.hidden-input{
+  transform: scale(0);
+  position: absolute;
+}

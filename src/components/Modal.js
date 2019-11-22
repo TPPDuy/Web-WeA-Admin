@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState, useRef} from 'react'
 import 'antd/dist/antd.css';
 import { Modal } from 'antd'
 import { Container, Row, Col } from 'react-bootstrap';
@@ -7,13 +7,25 @@ import PropTypes from 'prop-types'
 const { Option } = Select;
 const { TextArea } = Input;
 export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f => f, onCancel = f => f, onTextChange=f=>f}) => {
-
-
+    // const [loading, setLoading] = useState(false);
+    const [image, setImage] = useState(null);
+    const inputRef = useRef(null);
     let title;
     const onSubmit = e => {
         e.preventDefault()
         onOk(selectedCategory, title.value)
         title.value = ''
+    }
+    const onUploadFileBTNClick = e => {
+        inputRef.current.click();
+    }
+    const onUploadFile = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+    }
+    const onCloseModal = () => {
+        setImage(null);
+        onCancel();
     }
     return (
         <Modal
@@ -22,7 +34,7 @@ export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f =
             onOk={onOk}
             onCancel={onCancel}
             footer={[
-                <button key="cancel" className="cancel-button" onClick={onCancel}>
+                <button key="cancel" className="cancel-button" onClick={onCloseModal}>
                     Huỷ bỏ
             </button>,
                 <button key="submit" className="ok-button" style={{ marginLeft: '15px' }} onClick={onSubmit}>
@@ -36,18 +48,33 @@ export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f =
                     ref={input => title = input}
                     value={selectedCategory ? selectedCategory.name : ''} 
                     onChange={e => onTextChange(e.target.value)} required></input>
+                {image ?
+                <img className="ImageThumbnail-modal"
+                    style={{ marginTop: '24px' }}
+                    src={URL.createObjectURL(image)} />
+                :
                 <img className="ImageThumbnail-modal"
                     style={{ marginTop: '24px' }}
                     src={(selectedCategory !== undefined && selectedCategory !== null && selectedCategory.img !== "" && selectedCategory.img !== null && selectedCategory.img !== undefined) ? selectedCategory.img : './images/imagePlaceholder.svg'} />
+                }
                 <div style={{ margin: 'auto', marginTop: '16px' }}>Hình ảnh JPG, GIF, SVG hoặc PNG</div>
-                <button className="normal-button" style={{ margin: 'auto', marginTop: '16px' }} name="Cập nhật">Cập nhật</button>
+                <input 
+                    type="file" 
+                    ref={inputRef} 
+                    className="hidden-input" 
+                    accept="image/jpeg, image/gif, image/svg, image/png" 
+                    onChange={onUploadFile}
+                />
+                <button className="normal-button" style={{ margin: 'auto', marginTop: '16px' }} name="Cập nhật" onClick={onUploadFileBTNClick}>Cập nhật                    
+                </button>
             </div>
         </Modal>)
 }
 
 export const DishModal = ({ visibility = true, selectedDish, categories, onOk = f => f, onCancel = f => f, onTextChange=f=>f }) => {
     let name, price, categoryId, describe;
-
+    const [image, setImage] = useState(null);
+    const inputRef = useRef(null);
     const onSubmit = e => {
         e.preventDefault()
         console.log(selectedDish, name.value, price.value, categoryId, describe.value)
@@ -60,6 +87,17 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
     const onSelectCategory = category => {
         categoryId = category.id
     }
+    const onUploadFileBTNClick = e => {
+        inputRef.current.click();
+    }
+    const onUploadFile = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+    }
+    const onCloseModal = () => {
+        setImage(null);
+        onCancel();
+    }
     return (
         <Modal
             title="Tạo mới / Chỉnh sửa món ăn"
@@ -67,7 +105,7 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
             onOk={onOk}
             onCancel={onCancel}
             footer={[
-                <button key="cancel" className="cancel-button" onClick={onCancel}>
+                <button key="cancel" className="cancel-button" onClick={onCloseModal}>
                     Huỷ bỏ
                 </button>,
                 <button key="submit" className="ok-button" style={{ marginLeft: '15px' }} onClick={onSubmit}>
@@ -123,9 +161,21 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
                 </Row>
 
                 <Row style={{ marginTop: '20px', paddingLeft: '15px' }}>Hình ảnh:</Row>
-                <Row style={{ marginTop: '16px', paddingLeft: '15px' }}>
+                <Row style={{ marginTop: '16px', paddingLeft: '15px' }} onClick={onUploadFileBTNClick}>
+                    <input 
+                        type="file" 
+                        ref={inputRef} 
+                        className="hidden-input" 
+                        accept="image/jpeg, image/gif, image/svg, image/png" 
+                        onChange={onUploadFile}
+                    />
+                    {image ? 
+                    <img style={{ maxWidth: '90px', maxHeight: '90px' }}
+                        src={URL.createObjectURL(image)}></img>
+                    :
                     <img style={{ maxWidth: '90px', maxHeight: '90px' }}
                         src={(selectedDish !== undefined && selectedDish !== null && selectedDish.img !== "") ? selectedDish.img : './images/imagePlaceholder.svg'}></img>
+                    }
                 </Row>
                 <Row style={{ marginTop: '16px', paddingLeft: '15px' }}>Mô tả:</Row>
                 <Row style={{ marginTop: '16px', paddingLeft: '15px' }}>
