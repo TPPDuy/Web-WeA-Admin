@@ -121,7 +121,7 @@ class Statistic extends Component {
         }
         const numberOfBill = filteredData.length;
         const revenue = filteredData.reduce((a,b) => a + b.total, 0);
-        console.log(filteredData)
+        // console.log(filteredData)
         return (
             <PageTemplate>
                 <ComponentContainer selectedPart="Thống kê">
@@ -130,7 +130,7 @@ class Statistic extends Component {
                             <span style={{ fontSize: '16px' }}>Ngày:</span>
                         </Col>
                         <Col lg="10" className="d-flex flex-row justify-content-start align-items-center nopadding">
-                            <ListButton value={dateFilter} onChange={this.handleDateFilter} />
+                            <ListButton />
                         </Col>
                     </Row>
                     <Row style={{ margin: '1rem 0rem' }} >
