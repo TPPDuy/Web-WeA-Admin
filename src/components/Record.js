@@ -4,6 +4,39 @@ import {Switch} from 'antd'
 import PropTypes from 'prop-types'
 import 'antd/dist/antd.css';
 
+export const Department = ({index=0, department, onChangeActiveStatus=f=>f, onClickRecord=f=>f, onRemove=f=>f}) =>
+<Container fluid="true">
+    <Row style={{alignItems:'center', paddingTop:'20px', paddingBottom:'20px', backgroundColor:(index%2===0) ? 'rgba(242, 242, 242, 0.55)' : '#ffffff'}}>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
+            {index}
+        </Col>
+        <Col lg ="3" md="2" sm="2" xs="2" className="TableTitle-left-align">
+            <div className="name" onClick={onClickRecord}>{department.name}</div>
+        </Col>
+        <Col lg ="2" md="1" sm="2" xs="2" className="TableTitle-center-align">
+            <Switch 
+                    checkedChildren="Y" 
+                    unCheckedChildren="N" 
+                    checked={(department.isActive ? true : false)}
+                    onChange={onChangeActiveStatus}>
+            </Switch>
+        </Col>
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div>{new Date(department.createdTime).toLocaleString()}</div>
+        </Col>
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div>{new Date(department.updatedTime).toLocaleString()}</div>
+        </Col>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align"></Col>
+
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
+            <button style={{backgroundColor:'#EB5757', border:'0px solid', padding:'5px 10px'}} onClick={onRemove}>
+                <img src="/images/iconTrash.svg" alt="iconTrash"></img>
+            </button>
+        </Col>
+    </Row>
+</Container>
+
 export const Category = ({index=0, category, onChangeActiveStatus=f=>f, onClickRecord=f=>f, onRemove=f=>f}) =>
 <Container fluid="true">
     <Row style={{alignItems:'center', paddingTop:'20px', paddingBottom:'20px', backgroundColor:(index%2===0) ? 'rgba(242, 242, 242, 0.55)' : '#ffffff'}}>
@@ -80,6 +113,41 @@ export const Dish = ({index=0, dish, onChangeActiveStatus=f=>f, onClickRecord=f=
         </Col>
     </Row>
 </Container>
+
+
+export const Table = ({index=0, table, onChangeActiveStatus=f=>f, onClickRecord=f=>f, onRemove=f=>f}) =>
+<Container fluid="true">
+    <Row style={{alignItems:'center', paddingTop:'20px', paddingBottom:'20px', backgroundColor:(index%2===0) ? 'rgba(242, 242, 242, 0.55)' : '#ffffff'}}>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
+            {index}
+        </Col>
+        <Col lg ="3" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div className="name" onClick={onClickRecord}>{table.name}</div>
+        </Col>
+        <Col lg ="3" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div>{(table.department) ? table.department.name : ""}</div>
+        </Col>
+        <Col lg ="1" md="1" sm="2" xs="2" className="TableTitle-center-align">
+            <Switch 
+                    checkedChildren="Y" 
+                    unCheckedChildren="N" 
+                    checked={(table.isActive ? true : false)}
+                    onChange={onChangeActiveStatus}>
+            </Switch>
+        </Col>
+        <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
+            <div>{new Date(table.updatedTime).toLocaleString()}</div>
+        </Col>
+
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align"></Col>
+        <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
+            <button style={{backgroundColor:'#EB5757', border:'0px solid', padding:'5px 10px'}} onClick={onRemove}>
+                <img src="/images/iconTrash.svg" alt="iconTrash"></img>
+            </button>
+        </Col>
+    </Row>
+</Container>
+
 
 export const Bill = ({index = 0 , bill}) =>
 <Container fluid="true">

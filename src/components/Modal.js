@@ -6,6 +6,44 @@ import { Select, Input } from 'antd';
 import PropTypes from 'prop-types'
 const { Option } = Select;
 const { TextArea } = Input;
+
+export const DepartmentModal = ({ visibility = false, selectedDepartment, onOk = f => f, onCancel = f => f, onTextChange=f=>f}) => {
+    // const [loading, setLoading] = useState(false);
+    let title;
+    const onSubmit = e => {
+        e.preventDefault()
+        onOk(selectedDepartment, title.value)
+        title.value = ''
+    }
+    
+    const onCloseModal = () => {
+        onCancel();
+    }
+    return (
+        <Modal
+            title="Tạo mới / Chỉnh sửa bộ phận"
+            visible={visibility}
+            onOk={onOk}
+            onCancel={onCancel}
+            footer={[
+                <button key="cancel" className="cancel-button" onClick={onCloseModal}>
+                    Huỷ bỏ
+            </button>,
+                <button key="submit" className="ok-button" style={{ marginLeft: '15px' }} onClick={onSubmit}>
+                    Đồng ý
+            </button>,
+            ]}>
+            <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '10px' }}>
+                <div style={{ color: '#000000' }}>Tên bộ phận</div>
+                <input style={{ border: '1px solid #E0E0E0', boxSizing: 'border-box', color: '#000000', marginTop: '16px', padding: '7px' }}
+                    placeholder='Nhập tên bộ phận'
+                    ref={input => title = input}
+                    value={selectedDepartment ? selectedDepartment.name : ''} 
+                    onChange={e => onTextChange(e.target.value)} required></input>
+            </div>
+        </Modal>)
+}
+
 export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f => f, onCancel = f => f, onTextChange=f=>f}) => {
     // const [loading, setLoading] = useState(false);
     const [image, setImage] = useState(null);
@@ -72,20 +110,24 @@ export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f =
 }
 
 export const DishModal = ({ visibility = true, selectedDish, categories, onOk = f => f, onCancel = f => f, onTextChange=f=>f }) => {
-    let name, price, categoryId, describe;
+    let name, price, category, describe;
     const [image, setImage] = useState(null);
     const inputRef = useRef(null);
+    {
+        selectedDish ? category = selectedDish.category : category = undefined
+    }
     const onSubmit = e => {
         e.preventDefault()
-        console.log(selectedDish, name.value, price.value, categoryId, describe.value)
-        onOk(selectedDish, name.value, price.value, categoryId, describe.value)
+        console.log(selectedDish, name.value, price.value, category, describe.value)
+        onOk(selectedDish, name.value, price.value, category, describe.value)
         name.value = ''
         price.value = ''
         describe.value = ''
     }
     console.log(selectedDish)
+    console.log(category)
     const onSelectCategory = category => {
-        categoryId = category.id
+        category = category
     }
     const onUploadFileBTNClick = e => {
         inputRef.current.click();
@@ -151,10 +193,11 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
                             style={{ width: '100%' }}
                             placeholder="Chọn danh mục"
                             optionFilterProp="children"
+                            defaultValue = {category ? selectedDish.category.name : ""}
                             filterOption={(input, option) =>
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
                             {
-                                categories.map(category => <Option value={category.id}>{category.name}</Option>)
+                                categories.map(c => <Option value={c.id}>{c.name}</Option>)
                             }
                         </Select>
                     </Col>
@@ -190,6 +233,71 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
         </Modal>)
 }
 
+export const TableModal = ({ visibility = true, selectedTable, departments, onOk = f => f, onCancel = f => f, onTextChange=f=>f }) => {
+    let name, departmentId;
+    const onSubmit = e => {
+        e.preventDefault()
+        onOk(selectedTable, name.value, departmentId)
+        name.value = ''
+    }
+    const onSelectDepartment = department=> {
+        departmentId = department.id
+    }
+    const onCloseModal = () => {
+        onCancel();
+    }
+    return (
+        <Modal
+            title="Tạo mới / Chỉnh sửa bàn"
+            visible={visibility}
+            onOk={onOk}
+            onCancel={onCancel}
+            footer={[
+                <button key="cancel" className="cancel-button" onClick={onCloseModal}>
+                    Huỷ bỏ
+                </button>,
+                <button key="submit" className="ok-button" style={{ marginLeft: '15px' }} onClick={onSubmit}>
+                    Đồng ý
+                </button>,
+            ]}>
+            <Container fluid="true">
+                <Row style={{ alignItems: 'center' }}>
+                    <Col lg={4}>
+                        Tên bàn:
+                </Col>
+                    <Col lg={8}>
+                        <input style={{ border: '1px solid #E0E0E0', boxSizing: 'border-box', color: '#000000', padding: '7px', width: '100%' }}
+                            placeholder='Nhập tên bàn'
+                            value={selectedTable ? selectedTable.name : ''} required
+                            ref={input => name = input}
+                            onChange={e=>onTextChange(e.target.value, 'name')}>
+                        </input>
+                    </Col>
+                </Row>
+            
+                <Row style={{ marginTop: '16px', alignItems: 'center' }}>
+                    <Col lg={4}>
+                        Bộ phận:
+                </Col>
+                    <Col lg={8}>
+                        <Select
+                            showSearch
+                            onSelect={onSelectDepartment}
+                            style={{ width: '100%' }}
+                            placeholder="Chọn bộ phận"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
+                            {
+                                departments.map(department => <Option value={department.id}>{department.name}</Option>)
+                            }
+                        </Select>
+                    </Col>
+                </Row>
+            </Container>
+        </Modal>)
+}
+
 DishModal.propTypes = {
     categories: PropTypes.object
 }
@@ -219,6 +327,39 @@ DishModal.defaultProps = {
             createdTime: 1574113100000,
             updatedTime: 1574117700000,
         }
+    ]
+}
+
+TableModal.defaultProps = {
+    departments: [
+        {
+            id: '01',
+            name: 'Tầng trệt',
+            isActive: 1,
+            createdTime: 1574192100000,
+            updatedTime: 1574195700000,
+        },
+        {
+            id: '02',
+            name: 'Tầng 1',
+            isActive: 1,
+            createdTime: 1574196100000,
+            updatedTime: 1574199700000,
+        },
+        {
+            id: '03',
+            name: 'Tầng 2',
+            isActive: 1,
+            createdTime: 1574113100000,
+            updatedTime: 1574117700000,
+        },
+        {
+            id: '04',
+            name: 'Tầng 3',
+            isActive: 0,
+            createdTime: 1574153100000,
+            updatedTime: 1574197700000,
+        },
     ]
 }
 
