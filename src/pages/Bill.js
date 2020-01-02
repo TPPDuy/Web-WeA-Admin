@@ -12,8 +12,7 @@ import { Spin } from 'antd'
 
 class Bill extends Component {
     componentDidMount(){
-        const { filter, pageNo, pageSize } = this.props
-        this.props.billFetchData(filter, pageNo, pageSize)
+        this.props.billFetchData()
     }
     onPagination = (pageNo, pageSize) => {
         this.props.handlePagination(pageNo, pageSize)
@@ -33,7 +32,7 @@ class Bill extends Component {
                 <ComponentContainer selectedPart="Hóa đơn">
                     <Row className="nomargin">
                         <div style={{marginLeft: 'auto'}}>
-                            <ListButton />
+                            <ListButton type="0"/>
                         </div>
                     </Row>
                     <Row style={{ margin: '1rem 0rem' }} >                        
@@ -58,7 +57,6 @@ class Bill extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    filter: state.filter,
     bills: state.bill.bills,
     sortOrder: state.bill.sortOrder, 
     pageNo: state.bill.pageNo,
@@ -69,8 +67,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
     handleSort: () => dispatch(bill_sort()),
-    billFetchData: (filter, pageNo, pageSize) => dispatch(bill_fetch_data(filter, pageNo, pageSize)),
-    handlePagination: (filter, pageNo, pageSize) => dispatch(bill_handle_pagination(filter, pageNo, pageSize))
+    billFetchData: () => dispatch(bill_fetch_data()),
+    handlePagination: (pageNo, pageSize) => dispatch(bill_handle_pagination(pageNo))
 })
 
 export default connect(

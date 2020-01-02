@@ -1,6 +1,4 @@
-import { bill_fetch_data } from './bill'
-import {store} from '../index'
-import { reset_bill_pagination }  from './bill'
+import { bill_fetch_data ,reset_bill_pagination, bill_statistic }  from './bill'
 
 export const DEFAULT_TIME_FILTER = 'DEFAULT_TIME_FILTER'
 export const DEFINED_TIME_FILTER = 'DEFINED_TIME_FILTER'
@@ -10,7 +8,6 @@ export const RESET_FILTER = 'RESET_FILTER'
 
 
 export const default_time_filter = (startDate, endDate) => {
-    //console.log(startDate, endDate)
     return {
         type: DEFAULT_TIME_FILTER,
         startDate,
@@ -42,22 +39,27 @@ export const reset_filter = () => ({
     type: RESET_FILTER
 })
 
-export const handle_defined_time_filter = (dateFilterOption) => dispatch => {
+export const handle_defined_time_filter = (dateFilterOption, type) => dispatch => { //type: 1 - statistic, 0 - bill
     dispatch(reset_filter())
     dispatch(reset_bill_pagination())
-    let pageNo = store.getState().bill.pageNo
-    let pageSize = store.getState().bill.pageSize
     dispatch(defined_time_filter(dateFilterOption))
-    let filter = store.getState().filter
-    dispatch(bill_fetch_data(filter, pageNo, pageSize))
+    if(type === "0") dispatch(bill_fetch_data())
+    else dispatch(bill_statistic())
 }
 
 export const handle_criteria_search = (criteriaOption, searchValue, startDate, endDate) => dispatch => {
     console.log(criteriaOption)
     dispatch(reset_bill_pagination())
-    let pageNo = store.getState().bill.pageNo
-    let pageSize = store.getState().bill.pageSize
     dispatch(criteria_search(criteriaOption, searchValue, startDate, endDate))
-    let filter = store.getState().filter
-    dispatch(bill_fetch_data(filter, pageNo, pageSize))
+    dispatch(bill_fetch_data())
+}
+
+export const handle_default_time_filter = (startDate, endDate) => dispatch => {
+    dispatch(default_time_filter(startDate, endDate))
+    dispatch(bill_statistic())
+}
+
+export const handle_employee_filter = (value) => dispatch => {
+    dispatch(employee_filter(value))
+    dispatch(bill_statistic())
 }

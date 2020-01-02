@@ -28,7 +28,7 @@ export const api_2 = {
     get: (url, params) => {
         return instance_2.get(`${url}`, params)
     },
-    post: (url, req) => {
-        return instance_2.post(`${url}`, req)
+    post: (url, data, config) => {
+        return instance_2.post(`${url}`, data, config)
     }
 }

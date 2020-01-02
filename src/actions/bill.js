@@ -5,9 +5,11 @@ export const BILL_SORT = 'BILL_SORT'
 export const BILL_FETCH_DATA_BEGIN = 'BILL_FETCH_DATA_BEGIN'
 export const BILL_FETCH_DATA_SUCCESS = 'BILL_FETCH_DATA_SUCCESS'
 export const BILL_FETCH_DATA_FAILURE = 'BILL_FETCH_DATA_FAILURE'
-export const BILL_OVERVIEW_GET_INFO = 'BILL_OVERVIEW_GET_INFO'
 export const BILL_PAGINATION = 'BILL_PAGINATION'
 export const RESET_BILL_PAGINATION = 'RESET_BILL_PAGINATION'
+export const BILL_STATISTIC_BEGIN = 'BILL_STATISTIC_BEGIN'
+export const BILL_STATISTIC_SUCCESS = 'BILL_STATISTIC_SUCCESS'
+export const BILL_STATISTIC_FAILURE = 'BILL_STATISTIC_FAILURE'
 
 export const bill_sort = () => ({
     type: BILL_SORT
@@ -23,9 +25,7 @@ export const bill_fetch_data_failure = (error) => ({
     type: BILL_FETCH_DATA_FAILURE,
     payload: error
 })
-export const bill_overview_get_info = () => ({
-    type: BILL_OVERVIEW_GET_INFO
-})
+
 export const bill_pagination = (pageNo) => ({
     type: BILL_PAGINATION,
     pageNo
@@ -33,8 +33,22 @@ export const bill_pagination = (pageNo) => ({
 export const reset_bill_pagination = () => ({
     type: RESET_BILL_PAGINATION
 })
+export const bill_statistic_begin = () => ({
+    type: BILL_STATISTIC_BEGIN
+})
+export const bill_statistic_success = (statistic) => ({
+    type: BILL_STATISTIC_SUCCESS,
+    statistic
+})
+export const bill_statistic_failure = (error) => ({
+    type: BILL_STATISTIC_FAILURE,
+    error
+})
 
-export const bill_fetch_data = (filter, pageNo, pageSize) => dispatch => {
+export const bill_fetch_data = () => dispatch => {
+    let filter = store.getState().filter
+    let pageNo = store.getState().bill.pageNo
+    let pageSize = store.getState().bill.pageSize
     dispatch(bill_fetch_data_begin())
     const form = new FormData()
     if(typeof filter.startDate !== 'undefined') form.append('startDate', (filter.startDate).toString())
@@ -54,8 +68,25 @@ export const bill_fetch_data = (filter, pageNo, pageSize) => dispatch => {
     })
 }
 
-export const bill_handle_pagination = (pageNo, pageSize) => dispatch => {
-    let filter = store.getState().filter
+export const bill_handle_pagination = (pageNo) => dispatch => {
     dispatch(bill_pagination(pageNo))
-    dispatch(bill_fetch_data(filter, pageNo, pageSize))
+    dispatch(bill_fetch_data())
+}
+
+export const bill_statistic = () => dispatch => {
+    dispatch(bill_statistic_begin())
+    let filter = store.getState().filter
+    const form = new FormData()
+    if(typeof filter.startDate !== 'undefined') form.append('startDate', (filter.startDate).toString())
+    if(typeof filter.endDate !== 'undefined') form.append('endDate', (filter.endDate).toString())
+    if(typeof filter.employeeFilterValue !== 'undefined') form.append('employeeSearch', (filter.employeeFilterValue).toString())
+    return api_1.post('/bill/statistic', form , {
+        headers: {
+            'content-type': `multipart/form-data; boundary=${form._boundary}`}
+    }).then(res => {
+        dispatch(bill_statistic_success(res.data))
+    }).catch(err => {
+        dispatch(bill_statistic_failure(err))
+    })
+
 }

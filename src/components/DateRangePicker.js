@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux'
-import { default_time_filter } from '../actions/filter'
+import { handle_default_time_filter } from '../actions/filter'
 
 const { RangePicker } = DatePicker
 
@@ -73,7 +73,7 @@ class UnconnectedDatePickerWithSpace extends Component {
 }
 
 const mapDispatchToProps= dispatch => ({
-    handleSubmit: (startDate, endDate) => dispatch(default_time_filter(startDate, endDate))
+    handleSubmit: (startDate, endDate) => dispatch(handle_default_time_filter(startDate, endDate))
 })
 
 const ConnectedDatePickerWithSpace = connect(

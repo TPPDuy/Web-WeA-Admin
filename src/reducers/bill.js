@@ -3,10 +3,12 @@ import {
     BILL_FETCH_DATA_BEGIN,
     BILL_FETCH_DATA_SUCCESS,
     BILL_FETCH_DATA_FAILURE,
-    BILL_OVERVIEW_GET_INFO,
     BILL_PAGINATION,
-    RESET_BILL_PAGINATION
-} from '../actions/bill'
+    RESET_BILL_PAGINATION,
+    BILL_STATISTIC_BEGIN,
+    BILL_STATISTIC_SUCCESS,
+    BILL_STATISTIC_FAILURE
+ } from '../actions/bill'
 
 const initBills = () => ({
     sortOrder: 0,
@@ -16,7 +18,13 @@ const initBills = () => ({
     pageNo: 1,
     pageSize: 6,
     loading: true,
-    error: null
+    error: null,
+    statistic: {
+        loading: true,
+        error: null,
+        quantity: 0,
+        total: 0
+    }
 })
 
 const bill = (state = initBills(), action) => {
@@ -31,7 +39,7 @@ const bill = (state = initBills(), action) => {
             return {
                 ...state,
                 loading: true,
-                error: true
+                error: null
             }
         case BILL_FETCH_DATA_SUCCESS:
             return {
@@ -46,23 +54,47 @@ const bill = (state = initBills(), action) => {
                 error: action.payload,
                 bills: []
             }
-        case BILL_OVERVIEW_GET_INFO:
-            return {
-                ...state,
-                quantity: 400,
-                total: 250000000
-            }
         case BILL_PAGINATION:
             return {
                 ...state,
                 pageNo: action.pageNo
             }
         case RESET_BILL_PAGINATION: 
-        return {
-            ...state,
-            pageNo: 1,
-            pageSize: 6       
-        }
+            return {
+                ...state,
+                pageNo: 1,
+                pageSize: 6       
+            }
+        case BILL_STATISTIC_BEGIN: 
+            return{
+                ...state,
+                statistic: {
+                    ...state.statistic,
+                    loading: true,
+                    error: null
+                }
+            }
+        case BILL_STATISTIC_SUCCESS:
+            return{
+                ...state,
+                statistic: {
+                    ...state.statistic,
+                    loading: false,
+                    quantity: action.statistic.quantity,
+                    total: action.statistic.total
+                }
+            }
+        case BILL_STATISTIC_FAILURE:
+            return {
+                ...state,
+                statistic: {
+                    ...state.statistic,
+                    loading: false,
+                    error: action.error,
+                    quantity: 0,
+                    total: 0
+                }
+            }
         default: 
             return state
     }

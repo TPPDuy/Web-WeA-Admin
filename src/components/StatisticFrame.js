@@ -1,6 +1,7 @@
 import React from 'react'
+import { Spin } from 'antd'
 
-const Frame = ({ title, value, bgColor, url, alt }) => (
+const Frame = ({ title, value, bgColor, url, alt, loading }) => (
     <div className="StatisticFrame"
         style={{
             backgroundColor: bgColor
@@ -18,7 +19,7 @@ const Frame = ({ title, value, bgColor, url, alt }) => (
             style={{
                 fontSize: '24px'
             }}>
-                {value}
+                {loading ? <Spin /> : value}
         </span>
     </div>
 )

@@ -8,11 +8,12 @@ class StatisticCascader extends Component {
             options,
             allowClear, 
             onChange,
-            defaultValue
+            defaultValue, 
+            loading
         } = this.props
         return (
             <React.Fragment>
-                <Cascader allowClear={allowClear === 'true'} onChange={onChange} options={options} defaultValue={defaultValue} placeholder=""/>
+                <Cascader disabled={loading} allowClear={allowClear === 'true'} onChange={onChange} options={options} defaultValue={defaultValue} placeholder=""/>
             </React.Fragment>
         )
     }

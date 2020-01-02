@@ -7,32 +7,33 @@ import { DatePickerWithSpace as DatePicker } from '../components/DateRangePicker
 import Cascader from '../components/Cascader'
 import Frame from '../components/StatisticFrame'
 import { connect } from 'react-redux'
-import { employee_filter } from '../actions/filter'
-import { bill_overview_get_info } from '../actions/bill'
-import { employee_fetch_data, user_total_number} from '../actions/user'
+import { handle_employee_filter } from '../actions/filter'
+import { bill_statistic } from '../actions/bill'
+import { employee_fetch_data, get_user_total_number} from '../actions/user'
+import { Spin } from 'antd'
 
 class Statistic extends Component {
     componentDidMount(){
         this.props.employeeFetchData()
-        this.props.billGetOverviewInfo()
+        this.props.billStatistic()
         this.props.getNumberOfUser()
     }
     render() {
         const {
             employees,
-            bills,
             numberOfUsers,
-            numberOfBills,
-            totalBills,
-            handleEmployee
+            quantity,
+            total,
+            handleEmployee,
+            loading,
+            employeeLoading
         } = this.props
         
         let options = []
-        employees.forEach(e => options.push({
-            value: e.name,
-            label: e.name
+        employees.forEach((e, index) => options.push({
+            value: e.username ,
+            label: e.fullname,
         }))
-        
         return (
             <PageTemplate>
                 <ComponentContainer selectedPart="Thống kê">
@@ -41,7 +42,7 @@ class Statistic extends Component {
                             <span style={{ fontSize: '16px' }}>Ngày:</span>
                         </Col>
                         <Col lg="10" className="d-flex flex-row justify-content-start align-items-center nopadding">
-                            <ListButton />
+                            <ListButton type="1"/>
                         </Col>
                     </Row>
                     <Row style={{ margin: '1rem 0rem' }} >
@@ -58,14 +59,15 @@ class Statistic extends Component {
                             <span style={{ fontSize: '16px' }}>Nhân viên:</span>
                         </Col>
                         <Col lg="10" className="d-flex flex-row justify-content-start align-items-center nopadding">
-                            <Cascader options={options} allowClear="true" onChange={handleEmployee}/>
+                            <Cascader loading={employeeLoading} options={options} allowClear="true" onChange={handleEmployee}/>
+                            {employeeLoading && <div className="ml-3"><Spin size="small"/></div>}
                         </Col>
                     </Row>
                     <div className='StatisticLine' />
                     <Row style={{ margin: '1rem 0rem' }} >
                         <div className="d-flex flex-row justify-content-between align-items-center w-100">
-                            <Frame bgColor="#3498DB" url='/images/frame1.svg' title="Số hóa đơn" value={numberOfBills} alt="Number of bill" />
-                            <Frame bgColor="#12CBC4" url='/images/frame2.svg' title="Doanh thu" value={totalBills} alt="Revenue" />
+                            <Frame bgColor="#3498DB" url='/images/frame1.svg' title="Số hóa đơn" value={quantity} alt="Number of bill" loading={loading}/>
+                            <Frame bgColor="#12CBC4" url='/images/frame2.svg' title="Doanh thu" value={total} alt="Revenue" loading={loading}/>
                             <Frame bgColor="#8C7AE6" url='/images/frame3.svg' title="Tổng nhân viên" value={numberOfUsers} alt="Number or employee" />
                             <Frame bgColor="#34495E" url='/images/frame4.svg' title="Nhân viên mới" value="0" alt="New employee" />
                         </div>
@@ -75,19 +77,20 @@ class Statistic extends Component {
         )
     }
 }
-const mapStateToProps = (state) => ({
-    employees: state.user.employees,
-    numberOfBills: state.bill.quantity,
-    totalBills: state.bill.total,
-    numberOfUsers: state.user.quantity
+const mapStateToProps = (state) => ({    
+    employees: state.user.employees.data,
+    quantity: state.bill.statistic.quantity,
+    total: state.bill.statistic.total,
+    numberOfUsers: state.user.quantity,
+    loading: state.bill.statistic.loading,
+    employeeLoading: state.user.employees.loading
 })
 const mapDispatchToProps = dispatch => ({
-    handleEmployee: ([value]) => dispatch(employee_filter(value)),
-    billGetOverviewInfo: () => dispatch(bill_overview_get_info()),
+    handleEmployee: ([value]) => dispatch(handle_employee_filter(value)),
+    billStatistic: () => dispatch(bill_statistic()),
     employeeFetchData: () => dispatch(employee_fetch_data()),
-    getNumberOfUser: () => dispatch(user_total_number())
+    getNumberOfUser: () => dispatch(get_user_total_number())
 })
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps

@@ -20,11 +20,20 @@ const initFilter = () => ({
 const filter = (state = initFilter(), action) => {
     switch (action.type) {
         case DEFAULT_TIME_FILTER:
-            return {
-                ...state,
-                startDate: action.startDate,
-                endDate: action.startDate
+            if(typeof action.startDate !== 'undefined' && action.startDate !== null){
+                return {
+                    ...state,
+                    startDate: parseInt(action.startDate.getTime()/1000),
+                    endDate: parseInt(action.endDate.getTime()/1000)
+                }
+            }else{
+                return {
+                    ...state,
+                    startDate: undefined,
+                    endDate: undefined
+                }
             }
+            
         case DEFINED_TIME_FILTER: {
             let startDate, endDate, dateFilterOption = action.dateFilterOption            
             if (dateFilterOption !== "0") {
