@@ -1,8 +1,33 @@
-import { Category, Dish, Bill, Employee } from "./Record";
+import { Department, Category, Table, Dish, Bill, Employee } from "./Record";
 import React from 'react'
 import PropTypes from 'prop-types'
 import { getPageData } from '../utils/utils'
 import { Pagination } from 'antd';
+
+export const Departments = ({ departments = [], pageNo, searchKey, onChangeActiveStatus = f => f, onClickRecord=f=>f, onRemove = f => f, onChangePage = f => f }) => {
+    let renderedData = departments
+    if(searchKey!==""){
+        renderedData = renderedData.filter(department => department.name.toLowerCase().includes(searchKey.toLowerCase()))
+    }
+    let paginationData = getPageData(renderedData, pageNo, 5)
+    return (
+        <div>
+            {(departments.length === 0) ?
+                <p style={{ marginTop: '30px' }}>Không có bộ phận nào, hãy thêm bộ phận mới</p> :
+                paginationData.map((department, index) =>
+                    <Department key={department.id}
+                        index={(pageNo - 1) * 5 + index + 1}
+                        department={department}
+                        onChangeActiveStatus={() => onChangeActiveStatus(department.id)}
+                        onRemove={() => onRemove(department.id)}
+                        onClickRecord={()=>onClickRecord(department)} />
+                )
+            }
+            <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
+                <Pagination simple defaultCurrent={1} total={renderedData.length} onChange={onChangePage} pageSize={5} />
+            </div>
+        </div>)
+}
 
 export const Categories = ({ categories = [], pageNo, searchKey, onChangeActiveStatus = f => f, onClickRecord=f=>f, onRemove = f => f, onChangePage = f => f }) => {
     let renderedData = categories
@@ -55,6 +80,31 @@ export const Dishes = ({ dishes = [], pageNo, searchKey, onChangeActiveStatus = 
     )
 }
 
+export const Tables = ({ tables = [], pageNo, searchKey, onChangeActiveStatus = f => f, onClickRecord=f=>f, onRemove = f => f, onChangePage = f => f }) => {
+    let renderedData = tables
+    if(searchKey!==""){
+        renderedData = renderedData.filter(table => table.name.toLowerCase().includes(searchKey.toLowerCase()))
+    }
+    let paginationData = getPageData(renderedData, pageNo, 5)
+    return (
+        <div>
+            {(tables.length === 0) ?
+                <p style={{ marginTop: '30px' }}>Không có bàn, hãy thêm bàn mới</p> :
+                paginationData.map((table, index) =>
+                    <Table key={table.id}
+                        index={(pageNo - 1) * 5 + index + 1}
+                        table={table}
+                        onChangeActiveStatus={() => onChangeActiveStatus(table.id)}
+                        onRemove={() => onRemove(table.id)}
+                        onClickRecord={()=>onClickRecord(table)} />
+                )
+            }
+            <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
+                <Pagination simple defaultCurrent={1} total={renderedData.length} onChange={onChangePage} pageSize={5}/>
+            </div>
+        </div>
+    )
+}
 
 export const Bills = ({
     bills,

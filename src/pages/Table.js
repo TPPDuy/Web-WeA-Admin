@@ -1,75 +1,59 @@
 import React, { Component } from 'react'
 import { SearchAddForm } from '../components/SearchAddForm';
-import { DishTableTitle } from '../components/TableTitle';
+import { TableTitle } from '../components/TableTitle';
 import ComponentContainer from '../components/ComponentContainer';
 import PageTemplate from '../components/PageTemplate'
-import { Dishes } from '../components/ListRecords'
-import { DishModal } from '../components/Modal';
+import { Tables } from '../components/ListRecords'
+import { TableModal } from '../components/Modal';
 
-class Dish extends Component {
+class Table extends Component {
     constructor(props) {
         super(props);
         this.state = {
             modalVisibility: false,
             pageNo: 1,
             searchKey: "",
-            selectedDish: undefined,
-            dishes: [
+            selectedTable: undefined,
+            tables: [
                 {
                     id: '01',
-                    img: 'http://bit.ly/2Qvxlox',
-                    name: 'Bò lúc lắc',
-                    category: {
-                        id: '03',
-                        name: 'Thịt'
+                    name: '101',
+                    department: {
+                        name: 'Tầng trệt'
                     },
-                    price: 320000,
                     isActive: 1,
                     createdTime: 1574192100000,
                     updatedTime: 1574195700000,
-                    describe: ""
                 },
                 {
                     id: '02',
-                    img: 'http://bit.ly/2pxTQxU',
-                    name: 'Gà nướng',
-                    category: {
-                        id: '03',
-                        name: 'Thịt'
+                    name: '102',
+                    department: {
+                        name: 'Tầng trệt'
                     },
-                    price: 250000,
                     isActive: 1,
                     createdTime: 1574196100000,
                     updatedTime: 1574199700000,
-                    describe: ""
                 },
                 {
                     id: '03',
-                    img: 'http://bit.ly/2XudqaV',
-                    name: 'Sò lông nướng',
-                    category: {
-                        id: '02',
-                        name: 'Hải sản'
+                    name: '203',
+                    department: {
+                        name: 'Tầng 1'
                     },
-                    price: 80000,
                     isActive: 1,
                     createdTime: 1574113100000,
                     updatedTime: 1574117700000,
-                    describe: ""
                 },
                 {
                     id: '04',
-                    img: 'http://bit.ly/344b314',
-                    name: 'Salad gà',
-                    category: {
-                        id: '01',
-                        name: 'Rau củ'
+                    name: '204',
+                    department: {
+                        name: 'Tầng 2'
                     },
-                    price: 65000,
                     isActive: 1,
                     createdTime: 1574213100000,
                     updatedTime: 1574917700000,
-                    describe: ""
                 }
             ]
         }
@@ -82,7 +66,7 @@ class Dish extends Component {
         this.onChangeStatus = this.onChangeStatus.bind(this)
         this.onInputSearchKey = this.onInputSearchKey.bind(this)
         this.onClickRecord = this.onClickRecord.bind(this)
-        this.removeSelectedDish = this.removeSelectedDish.bind(this)
+        this.removeSelectedTable = this.removeSelectedTable.bind(this)
         this.onCancel = this.onCancel.bind(this)
         this.onTextChange = this.onTextChange.bind(this)
     }
@@ -95,25 +79,24 @@ class Dish extends Component {
     }
     onOk() {
         this.setState(prevState => {
-            if (prevState.selectedDish.id != undefined && prevState.selectedDish.id != null) {
+            if (prevState.selectedTable.id != undefined && prevState.selectedTable.id != null) {
                 return ({
-                    dishes: prevState.dishes.map(dish =>
-                        (dish.id == prevState.selectedDish.id) ?
+                    tables: prevState.tables.map(table =>
+                        (table.id == prevState.selectedTable.id) ?
                             {
-                                ...dish,
-                                name: prevState.selectedDish.name,
-                                price: prevState.selectedDish.price,
-                                category: prevState.selectedDish.category,
-                                describe: prevState.selectedDish.describe
-                            } : dish)
+                                ...table,
+                                name: prevState.selectedTable.name,
+                                price: prevState.selectedTable.price,
+                                department: prevState.selectedTable.department,
+                            } : table)
                 })
             }
             else {
                 return ({
-                    dishes: [
-                        ...prevState.dishes,
+                    tables: [
+                        ...prevState.tables,
                         {
-                            ...prevState.selectedDish,
+                            ...prevState.selectedTable,
                             id: Math.random(),
                             isActive: 1,
                             createdTime: new Date(),
@@ -124,30 +107,30 @@ class Dish extends Component {
             }
         })
         this.changeModalVisibility()
-        this.removeSelectedDish()
+        this.removeSelectedTable()
     }
     onCancel() {
-        this.removeSelectedDish()
+        this.removeSelectedTable()
         this.changeModalVisibility()
     }
     onSort() {
         this.setState(prevState => ({
-            dishes: [...prevState.dishes].sort((a, b) => a["price"] < b["price"] ? -1 : 1)
+            tables: [...prevState.tables].sort((a, b) => a["name"] < b["name"] ? -1 : 1)
         }))
     }
-    removeSelectedDish() {
+    removeSelectedTable() {
         this.setState({
-            selectedDish: undefined
+            selectedTable: undefined
         })
     }
     onRemove(id) {
         this.setState(prevState => ({
-            dishes: prevState.dishes.filter(dish => dish.id != id)
+            tables: prevState.tables.filter(table => table.id != id)
         }))
     }
     onChangeStatus(id) {
         this.setState(prevState => ({
-            dishes: prevState.dishes.map(dish => dish.id != id ? dish : { ...dish, isActive: dish.isActive ? 0 : 1 })
+            tables: prevState.tables.map(table => table.id != id ? table : { ...table, isActive: table.isActive ? 0 : 1 })
         }))
     }
     onChangePage(newPageNo) {
@@ -156,34 +139,20 @@ class Dish extends Component {
     onInputSearchKey(key) {
         this.setState({ searchKey: key.target.value })
     }
-    onClickRecord(dish) {
+    onClickRecord(table) {
         this.setState({
-            selectedDish: dish,
-            modalVisibility: dish ? true : false
+            selectedTable: table,
+            modalVisibility: table ? true : false
         })
     }
     onTextChange(value, field) {
-        switch (field) {
-            case "name":
-                this.setState(prevState => ({
-                    selectedDish: { ...prevState.selectedDish, name: value }
-                }));
-                break;
-            case "price":
-                this.setState(prevState => ({
-                    selectedDish: { ...prevState.selectedDish, price: value }
-                }));
-                break;
-            case "describe":
-                this.setState(prevState => ({
-                    selectedDish: { ...prevState.selectedDish, describe: value }
-                }));
-                break;
-        }
+        this.setState(prevState => ({
+            selectedTable: { ...prevState.selectedTable, name: value }
+        }));
 
     }
     render() {
-        const { modalVisibility, dishes, pageNo, searchKey, selectedDish } = this.state;
+        const { modalVisibility, tables, pageNo, searchKey, selectedTable } = this.state;
         const { onShowModal, onOk, onSort, onRemove, onChangePage, onChangeStatus, onInputSearchKey, onClickRecord, onCancel, onTextChange } = this
         return (
             <PageTemplate>
@@ -192,19 +161,19 @@ class Dish extends Component {
                         <SearchAddForm onShowModal={onShowModal} onInputSearchKey={onInputSearchKey}></SearchAddForm>
                     </div>
                     <div style={{ width: '100%' }}>
-                        <DishTableTitle onSort={onSort}></DishTableTitle>
-                        <Dishes dishes={dishes}
+                        <TableTitle onSort={onSort}></TableTitle>
+                        <Tables tables={tables}
                             pageNo={pageNo}
                             searchKey={searchKey}
                             onRemove={onRemove}
                             onChangePage={onChangePage}
                             onChangeActiveStatus={onChangeStatus}
-                            onClickRecord={onClickRecord}></Dishes>
-                        <DishModal selectedDish={selectedDish}
+                            onClickRecord={onClickRecord}></Tables>
+                        <TableModal selectedTable={selectedTable}
                             visibility={modalVisibility}
                             onCancel={onCancel}
                             onOk={onOk}
-                            onTextChange={onTextChange}></DishModal>
+                            onTextChange={onTextChange}></TableModal>
                     </div>
                 </ComponentContainer>
             </PageTemplate>
@@ -212,4 +181,4 @@ class Dish extends Component {
     }
 }
 
-export default Dish
+export default Table
