@@ -57,61 +57,31 @@ export const Dishes = ({ dishes = [], pageNo, searchKey, onChangeActiveStatus = 
 
 
 export const Bills = ({
-    dateFilter,
-    searchCriteria,
-    searchInput,
-    startDate,
-    endDate,
-    bills = [],
+    bills,
     pageNo,
-    dateSort,
-    searchSubmit,
-    handlePagination
+    pageSize,
+    sortOrder,
+    onPagination
 }) => {
     let renderedData = bills
-    if (searchSubmit) {
-        if (searchInput !== "") {
-            switch (searchCriteria[0]) {
-                case "1": renderedData = renderedData.filter(e => e.id.includes(searchInput)); break;
-                case "2": renderedData = renderedData.filter(e => e.total == searchInput); break;
-                case "3": renderedData = renderedData.filter(e => e.name.includes(searchInput)); break;
-            }
-        }
-        if (startDate !== "" && typeof startDate === undefined) {
-            const a = new Date(startDate), b = new Date(endDate);
-            renderedData = renderedData.filter(e => {
-                const current = new Date(e.date);
-                return a <= current && current <= b;
-            });
-        }
+    if (sortOrder !== 0){
+        renderedData.sort((a, b) =>{ console.log(a.created_at, b.created_at);return (b.created_at - a.created_at) * sortOrder})
+        console.log(renderedData)
     }
-    else{
-        if(dateFilter != 0) {       
-            const a = new Date(dateFilter)
-            renderedData = renderedData.filter(e => {
-                const current = new Date(e.date);
-                return current >= a;
-            });
-        }
-    }
-    let pageData = getPageData(renderedData, pageNo, 6);
-    if (dateSort !== 0)
-        pageData.sort((a, b) => (Date.parse(b.date) - Date.parse(a.date)) * dateSort)
     return (
         <div>
             {(renderedData.length === 0) ?
                 <p style={{ marginTop: '30px' }}>Danh sách rỗng</p> :
-                pageData.map((bill, index) =>
+                renderedData.map((bill, index) =>
                     <Bill
-                        key={bill.id}
-                        index={(pageNo - 1) * 6 + index + 1}
+                        key={bill._id}
+                        index={(pageNo - 1) * pageSize + index + 1}
                         bill={bill}
                     />
                 )
             }
-
             <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
-                <Pagination simple defaultCurrent={1} total={renderedData.length} onChange={handlePagination} pageSize={6} />
+                <Pagination simple defaultCurrent={pageNo} total={100} onChange={onPagination} pageSize={pageSize} />
             </div>
         </div>
     )

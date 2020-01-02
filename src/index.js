@@ -10,7 +10,7 @@ import rootReducer from './reducers'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunkMiddleware)))
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunkMiddleware)))
 
 ReactDOM.render(
     <Provider store={store}>

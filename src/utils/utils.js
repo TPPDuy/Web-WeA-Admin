@@ -4,3 +4,8 @@ export const getPageData = (data, pageNo, pageSize) => {
     if(end > data.length) return data.slice(begin);
     return data.slice(begin, end);
 }
+export const seconds2Date = (seconds) => {
+    var t = new Date(1970, 0, 1); // Epoch
+    t.setSeconds(seconds);
+    return t;
+}

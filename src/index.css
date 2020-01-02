@@ -335,3 +335,6 @@ code {
   transform: scale(0);
   position: absolute;
 }
+.ant-spin-dot-item{
+  background-color: #333 !important;
+}
