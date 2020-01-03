@@ -11,6 +11,7 @@ import { handle_employee_filter } from '../actions/filter'
 import { bill_statistic } from '../actions/bill'
 import { employee_fetch_data, get_user_total_number} from '../actions/user'
 import { Spin } from 'antd'
+import { formatNumber } from '../utils/utils'
 
 class Statistic extends Component {
     componentDidMount(){
@@ -31,7 +32,7 @@ class Statistic extends Component {
         
         let options = []
         employees.forEach((e, index) => options.push({
-            value: e.username ,
+            value: e._id ,
             label: e.fullname,
         }))
         return (
@@ -67,7 +68,7 @@ class Statistic extends Component {
                     <Row style={{ margin: '1rem 0rem' }} >
                         <div className="d-flex flex-row justify-content-between align-items-center w-100">
                             <Frame bgColor="#3498DB" url='/images/frame1.svg' title="Số hóa đơn" value={quantity} alt="Number of bill" loading={loading}/>
-                            <Frame bgColor="#12CBC4" url='/images/frame2.svg' title="Doanh thu" value={total} alt="Revenue" loading={loading}/>
+                            <Frame bgColor="#12CBC4" url='/images/frame2.svg' title="Doanh thu" value={formatNumber(total)} alt="Revenue" loading={loading}/>
                             <Frame bgColor="#8C7AE6" url='/images/frame3.svg' title="Tổng nhân viên" value={numberOfUsers} alt="Number or employee" />
                             <Frame bgColor="#34495E" url='/images/frame4.svg' title="Nhân viên mới" value="0" alt="New employee" />
                         </div>

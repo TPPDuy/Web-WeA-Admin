@@ -25,6 +25,7 @@ class Bill extends Component {
             pageSize,
             loading,
             error,
+            quantity,
             handleSort
         } = this.props
         return (
@@ -43,6 +44,7 @@ class Bill extends Component {
                         {loading ? 
                             <div className="my-5"><Spin size="large"/></div> :
                             <Bills 
+                                quantity={quantity}
                                 bills={bills} 
                                 pageNo={pageNo} 
                                 pageSize={pageSize}
@@ -62,7 +64,8 @@ const mapStateToProps = (state) => ({
     pageNo: state.bill.pageNo,
     pageSize: state.bill.pageSize,
     loading: state.bill.loading,
-    error: state.bill.error
+    error: state.bill.error, 
+    quantity: state.bill.quantity
 })
 
 const mapDispatchToProps = dispatch => ({

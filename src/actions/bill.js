@@ -17,15 +17,15 @@ export const bill_sort = () => ({
 export const bill_fetch_data_begin = () => ({
     type: BILL_FETCH_DATA_BEGIN
 })
-export const bill_fetch_data_success = (bills) => ({
+export const bill_fetch_data_success = (quantity, bills) => ({
     type: BILL_FETCH_DATA_SUCCESS,
-    payload: bills
+    payload: bills, 
+    quantity
 })
 export const bill_fetch_data_failure = (error) => ({
     type: BILL_FETCH_DATA_FAILURE,
     payload: error
 })
-
 export const bill_pagination = (pageNo) => ({
     type: BILL_PAGINATION,
     pageNo
@@ -62,7 +62,7 @@ export const bill_fetch_data = () => dispatch => {
         headers: {
             'content-type': `multipart/form-data; boundary=${form._boundary}`}
     }).then(res => {
-        dispatch(bill_fetch_data_success(res.data.bills))
+        dispatch(bill_fetch_data_success(res.data.totalResult, res.data.bills))
     }).catch(err => {
         dispatch(bill_fetch_data_failure(err))
     })
@@ -82,7 +82,7 @@ export const bill_statistic = () => dispatch => {
     if(typeof filter.employeeFilterValue !== 'undefined') form.append('employeeSearch', (filter.employeeFilterValue).toString())
     return api_1.post('/bill/statistic', form , {
         headers: {
-            'content-type': `multipart/form-data; boundary=${form._boundary}`}
+            'content-type': `application/x-www-form-urlencoded; boundary=${form._boundary}`}
     }).then(res => {
         dispatch(bill_statistic_success(res.data))
     }).catch(err => {

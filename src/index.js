@@ -9,8 +9,15 @@ import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunkMiddleware)))
+
+toast.configure({
+    draggable: false,
+    autoClose: 3000
+})
 
 ReactDOM.render(
     <Provider store={store}>

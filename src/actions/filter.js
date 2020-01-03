@@ -48,7 +48,7 @@ export const handle_defined_time_filter = (dateFilterOption, type) => dispatch =
 }
 
 export const handle_criteria_search = (criteriaOption, searchValue, startDate, endDate) => dispatch => {
-    console.log(criteriaOption)
+
     dispatch(reset_bill_pagination())
     dispatch(criteria_search(criteriaOption, searchValue, startDate, endDate))
     dispatch(bill_fetch_data())
