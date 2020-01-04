@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import 'antd/dist/antd.css';
 import { seconds2Date } from '../utils/utils'
 import {host_image } from '../api/api'
+import { connect } from "react-redux";
 
 export const Department = ({index=0, department, onChangeActiveStatus=f=>f, onClickRecord=f=>f, onRemove=f=>f}) =>
 <Container fluid="true">
@@ -175,19 +176,18 @@ export const Bill = ({index = 0 , bill}) =>
 </Container>
 
 
-export const Employee = ({ index = 0, employee, onChangeActiveStatus = f => f, onEdit = f => f, onRemove = f => f}) => {
-    
+export const Employee = ({ index = 0, employee, onChangeActiveStatus = f => f, onEdit = f => f, onRemove = f => f, loading, error}) => {
     const typesOfEmployee = [
         {
-            level: 1,
+            level: 0,
             name: 'Nhân viên'
         },
         {
-            level: 2,
+            level: 1,
             name: 'Quản lí'
         },
         {
-            level: 3,
+            level: 2,
             name: 'Quản trị'
         }
     ]
@@ -201,20 +201,21 @@ export const Employee = ({ index = 0, employee, onChangeActiveStatus = f => f, o
                 <div>{employee.username}</div>
             </Col>
             <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-                <div>{employee.fullName}</div>
+                <div>{employee.fullname}</div>
             </Col>
             <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-                <div>{(typesOfEmployee.find(e => e.level == employee.type)).name}</div>
+                <div>{(typesOfEmployee.find(e => e.level === employee.level)).name}</div>
             </Col>
             <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-                <div>{new Date(employee.createdTime).toLocaleString()}</div>
+                <div>{new Date(employee.created_at).toLocaleString()}</div>
             </Col>
             <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
                 <Switch 
-                        checkedChildren="Y" 
-                        unCheckedChildren="N" 
-                        checked={(employee.isActive ? true : false)}
-                        onChange={onChangeActiveStatus}>
+                    checkedChildren="Y" 
+                    unCheckedChildren="N" 
+                    loading={loading}
+                    defaultChecked={error? employee.active : employee.active}
+                    onChange={onChangeActiveStatus}>
                 </Switch>
             </Col>        
             <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">

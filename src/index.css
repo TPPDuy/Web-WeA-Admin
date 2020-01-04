@@ -282,6 +282,9 @@ code {
   font-family: Gilroy-Bold;
   padding: 11px 25px;
 }
+.ok-button-loading{
+  opacity: 50%;
+}
 .row-content{
   display: flex;
   flex-direction: row;
@@ -337,4 +340,15 @@ code {
 }
 .ant-spin-dot-item{
   background-color: #333 !important;
+}
+.success-modal{
+  background-color: rgb(52, 152, 219) !important;
+}
+.success-modal-text{
+  color: white;
+  font-weight: bold;
+}
+.success-progress-bar{
+  background: white !important;
+  opacity: 80% !important;
 }

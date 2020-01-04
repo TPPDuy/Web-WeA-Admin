@@ -112,12 +112,12 @@ export const Bills = ({
     pageNo,
     pageSize,
     sortOrder,
+    quantity,
     onPagination
 }) => {
     let renderedData = bills
     if (sortOrder !== 0){
         renderedData.sort((a, b) =>{ console.log(a.created_at, b.created_at);return (b.created_at - a.created_at) * sortOrder})
-        console.log(renderedData)
     }
     return (
         <div>
@@ -132,7 +132,7 @@ export const Bills = ({
                 )
             }
             <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
-                <Pagination simple defaultCurrent={pageNo} total={100} onChange={onPagination} pageSize={pageSize} />
+                <Pagination simple defaultCurrent={pageNo} total={quantity} onChange={onPagination} pageSize={pageSize} />
             </div>
         </div>
     )
@@ -145,10 +145,13 @@ export const Employees = ({
     onEdit = f => f,
     pageNo, 
     dateSort,
+    quantity,
+    loadingID,
+    errorID,
     handlePagination = f => f }) => {
-    let renderedDate = getPageData(employees, pageNo, 10);
+    let renderedDate = employees
     if(dateSort !== 0){
-        renderedDate.sort((a,b) => (Date.parse(b.createdTime) - Date.parse(a.createdTime))*dateSort)
+        renderedDate.sort((a,b) => (Date.parse(b.created_at) - Date.parse(a.created_at))*dateSort)
     }
     return(
         <div style={{width: '100%'}}>
@@ -156,17 +159,19 @@ export const Employees = ({
                 <p style={{ marginTop: '30px' }}>Danh sách rỗng</p> :
                 renderedDate.map((employee, index) =>
                     <Employee 
-                        key={employee.id}
+                        key={employee._id}
                         index={(pageNo - 1) * 10 + index + 1}
                         employee={employee}
-                        onChangeActiveStatus={() => onChangeActiveStatus(employee.id, !employee.isActive)}
+                        onChangeActiveStatus={() => onChangeActiveStatus(employee._id)}
                         onEdit= {() => onEdit(employee)}
-                        onRemove={() => onRemove(employee.id)} 
+                        onRemove={() => onRemove(employee._id)} 
+                        loading={loadingID === employee._id}
+                        error={errorID === employee._id}
                         />
                 )
             }
             <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
-                    <Pagination simple defaultCurrent={1} total={employees.length} onChange={handlePagination}/>
+                    <Pagination simple defaultCurrent={pageNo} total={quantity} onChange={handlePagination}/>
                 </div>
         </div>
     )

@@ -18,7 +18,7 @@ const initBills = () => ({
     pageNo: 1,
     pageSize: 6,
     loading: true,
-    error: null,
+    error: null,    
     statistic: {
         loading: true,
         error: null,
@@ -29,8 +29,7 @@ const initBills = () => ({
 
 const bill = (state = initBills(), action) => {
     switch(action.type){
-        case BILL_SORT: 
-            console.log(state.sortOrder === 0 ? -1 : state.sortOrder * -1)
+        case BILL_SORT:             
             return{
                 ...state,
                 sortOrder: state.sortOrder === 0 ? -1 : state.sortOrder * -1
@@ -45,14 +44,16 @@ const bill = (state = initBills(), action) => {
             return {
                 ...state,
                 loading: false,
-                bills: action.payload
+                bills: action.payload, 
+                quantity: action.quantity
             }
         case BILL_FETCH_DATA_FAILURE:
             return {
                 ...state,
                 loading: false,
                 error: action.payload,
-                bills: []
+                bills: [], 
+                quantity: 0
             }
         case BILL_PAGINATION:
             return {
