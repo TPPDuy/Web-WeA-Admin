@@ -8,13 +8,18 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 
-export const DepartmentModal = ({ visibility = false, selectedDepartment, onOk = f => f, onCancel = f => f, onTextChange=f=>f}) => {
+export const DepartmentModal = ({ visibility = false, selectedDepartment, onAddData = f => f, onEditData = f => f, onCancel = f => f, onTextChange=f=>f}) => {
     // const [loading, setLoading] = useState(false);
     let title;
     const onSubmit = e => {
+        if(selectedDepartment !== undefined && selectedDepartment !== null && selectedDepartment.id != null)
+            onEditData({...selectedDepartment, name: title.value})
+        else
+            onAddData(title.value)
+            
         e.preventDefault()
-        onOk(selectedDepartment, title.value)
         title.value = ''
+        onCancel()
     }
     
     const onCloseModal = () => {
@@ -24,7 +29,7 @@ export const DepartmentModal = ({ visibility = false, selectedDepartment, onOk =
         <Modal
             title="Tạo mới / Chỉnh sửa bộ phận"
             visible={visibility}
-            onOk={onOk}
+            onOk={onSubmit}
             onCancel={onCancel}
             footer={[
                 <button key="cancel" className="cancel-button" onClick={onCloseModal}>
@@ -45,15 +50,21 @@ export const DepartmentModal = ({ visibility = false, selectedDepartment, onOk =
         </Modal>)
 }
 
-export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f => f, onCancel = f => f, onTextChange=f=>f}) => {
-    // const [loading, setLoading] = useState(false);
+export const CategoryModal = ({ visibility = false, selectedCategory, onAddData = f => f, onEditData = f => f, onCancel = f => f, onTextChange=f=>f}) => {
     const [image, setImage] = useState(null);
     const inputRef = useRef(null);
     let title;
     const onSubmit = e => {
         e.preventDefault()
-        onOk(selectedCategory, title.value)
+        if(selectedCategory !== undefined && selectedCategory !== null && selectedCategory.id != null)
+            onEditData({...selectedCategory,
+            name: title.value,
+            image: image != null && image != undefined ? image : null 
+            })
+        else
+            onAddData(title.value, image)
         title.value = ''
+        onCancel()
     }
     const onUploadFileBTNClick = e => {
         inputRef.current.click();
@@ -70,7 +81,7 @@ export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f =
         <Modal
             title="Tạo mới / Chỉnh sửa danh mục"
             visible={visibility}
-            onOk={onOk}
+            onOk={onSubmit}
             onCancel={onCancel}
             footer={[
                 <button key="cancel" className="cancel-button" onClick={onCloseModal}>
@@ -94,7 +105,7 @@ export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f =
                 :
                 <img className="ImageThumbnail-modal"
                     style={{ marginTop: '24px' }}
-                    src={(selectedCategory !== undefined && selectedCategory !== null && selectedCategory.img !== "" && selectedCategory.img !== null && selectedCategory.img !== undefined) ? selectedCategory.img : './images/imagePlaceholder.svg'} />
+                    src={(selectedCategory !== undefined && selectedCategory !== null && selectedCategory.image !== "" && selectedCategory.image !== null && selectedCategory.image !== undefined) ? selectedCategory.image : './images/imagePlaceholder.svg'} />
                 }
                 <div style={{ margin: 'auto', marginTop: '16px' }}>Hình ảnh JPG, GIF, SVG hoặc PNG</div>
                 <input 
@@ -110,25 +121,38 @@ export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f =
         </Modal>)
 }
 
-export const DishModal = ({ visibility = true, selectedDish, categories, onOk = f => f, onCancel = f => f, onTextChange=f=>f }) => {
-    let name, price, category, describe;
+export const DishModal = ({ visibility = false, selectedDish, categories, onAddData = f => f, onEditData = f => f, onCancel = f => f, onTextChange=f=>f }) => {
+    let name, price;
+    var category
     const [image, setImage] = useState(null);
     const inputRef = useRef(null);
-    {
-        selectedDish ? category = selectedDish.category : category = undefined
-    }
+    // {
+    //     selectedDish ? category = selectedDish.category : category = undefined
+    // }
     const onSubmit = e => {
         e.preventDefault()
-        console.log(selectedDish, name.value, price.value, category, describe.value)
-        onOk(selectedDish, name.value, price.value, category, describe.value)
+        console.log("info", selectedDish, name.value, price.value, category)
+        if(selectedDish !== undefined && selectedDish !== null && selectedDish._id!=null){
+            onEditData({...selectedDish, 
+                name: name.value, 
+                category: {
+                    ...selectedDish.category,
+                    _id: category
+                }, 
+                price: price.value, 
+                image: image != null && image != undefined ? image : null 
+            })
+        }
+        else
+            onAddData(name.value, price.value, category, image, '')
         name.value = ''
         price.value = ''
-        describe.value = ''
+        onCancel()
     }
-    console.log(selectedDish)
-    console.log(category)
-    const onSelectCategory = category => {
-        category = category
+    console.log("selected dish", selectedDish)
+    const onSelectCategory = c => {
+        console.log("selected category: ", c)
+        category = c
     }
     const onUploadFileBTNClick = e => {
         inputRef.current.click();
@@ -145,7 +169,7 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
         <Modal
             title="Tạo mới / Chỉnh sửa món ăn"
             visible={visibility}
-            onOk={onOk}
+            onOk={onSubmit}
             onCancel={onCancel}
             footer={[
                 <button key="cancel" className="cancel-button" onClick={onCloseModal}>
@@ -194,7 +218,7 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
                             style={{ width: '100%' }}
                             placeholder="Chọn danh mục"
                             optionFilterProp="children"
-                            defaultValue = {category ? selectedDish.category.name : ""}
+                            //value={category ? category : categories[0]}
                             filterOption={(input, option) =>
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
                             {
@@ -218,28 +242,33 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
                         src={URL.createObjectURL(image)}></img>
                     :
                     <img style={{ maxWidth: '90px', maxHeight: '90px' }}
-                        src={(selectedDish !== undefined && selectedDish !== null && selectedDish.img !== "") ? selectedDish.img : './images/imagePlaceholder.svg'}></img>
+                        src={(selectedDish !== undefined && selectedDish !== null && selectedDish.img && selectedDish.img !== '') ? selectedDish.img : './images/imagePlaceholder.svg'}></img>
                     }
-                </Row>
-                <Row style={{ marginTop: '16px', paddingLeft: '15px' }}>Mô tả:</Row>
-                <Row style={{ marginTop: '16px', paddingLeft: '15px' }}>
-                    <TextArea
-                        placeholder="Nhập mô tả"
-                        autoSize={{ minRows: 4, maxRows: 10 }}
-                        style={{ paddingTop: '10px', border: '1px solid #BDBDBD' }}
-                        ref={TextArea => describe = TextArea}
-                        onChange={e=>onTextChange(e.target.value, 'describe')} />
                 </Row>
             </Container>
         </Modal>)
 }
 
-export const TableModal = ({ visibility = true, selectedTable, departments, onOk = f => f, onCancel = f => f, onTextChange=f=>f }) => {
-    let name, departmentId;
+export const TableModal = ({ visibility = false, selectedTable, departments, onAddData, onEditData = f => f, onCancel = f => f, onTextChange=f=>f }) => {
+    let name;
+    var departmentId;
     const onSubmit = e => {
+
+        if(selectedTable !== undefined && selectedTable !== null && selectedTable.id!=null){
+            onEditData({...selectedTable, 
+                name: name.value, 
+                department: {
+                    ...selectedTable.department,
+                    id: departmentId
+                }, 
+            })
+        }
+        else
+            onAddData(name.value, departmentId)
+
         e.preventDefault()
-        onOk(selectedTable, name.value, departmentId)
         name.value = ''
+        onCancel()
     }
     const onSelectDepartment = department=> {
         departmentId = department.id
@@ -251,7 +280,7 @@ export const TableModal = ({ visibility = true, selectedTable, departments, onOk
         <Modal
             title="Tạo mới / Chỉnh sửa bàn"
             visible={visibility}
-            onOk={onOk}
+            onOk={onSubmit}
             onCancel={onCancel}
             footer={[
                 <button key="cancel" className="cancel-button" onClick={onCloseModal}>
@@ -271,7 +300,7 @@ export const TableModal = ({ visibility = true, selectedTable, departments, onOk
                             placeholder='Nhập tên bàn'
                             value={selectedTable ? selectedTable.name : ''} required
                             ref={input => name = input}
-                            onChange={e=>onTextChange(e.target.value, 'name')}>
+                            onChange={e=>onTextChange(e.target.value)}>
                         </input>
                     </Col>
                 </Row>
@@ -297,71 +326,6 @@ export const TableModal = ({ visibility = true, selectedTable, departments, onOk
                 </Row>
             </Container>
         </Modal>)
-}
-
-DishModal.propTypes = {
-    categories: PropTypes.object
-}
-DishModal.defaultProps = {
-    categories: [
-        {
-            id: '01',
-            img: 'http://bit.ly/37dkZr3',
-            name: 'Rau củ',
-            isActive: 1,
-            createdTime: 1574192100000,
-            updatedTime: 1574195700000,
-        },
-        {
-            id: '02',
-            img: 'http://bit.ly/37n9CN5',
-            name: 'Thịt',
-            isActive: 1,
-            createdTime: 1574196100000,
-            updatedTime: 1574199700000,
-        },
-        {
-            id: '03',
-            img: 'http://bit.ly/35kKsgb',
-            name: 'Hải sản',
-            isActive: 1,
-            createdTime: 1574113100000,
-            updatedTime: 1574117700000,
-        }
-    ]
-}
-
-TableModal.defaultProps = {
-    departments: [
-        {
-            id: '01',
-            name: 'Tầng trệt',
-            isActive: 1,
-            createdTime: 1574192100000,
-            updatedTime: 1574195700000,
-        },
-        {
-            id: '02',
-            name: 'Tầng 1',
-            isActive: 1,
-            createdTime: 1574196100000,
-            updatedTime: 1574199700000,
-        },
-        {
-            id: '03',
-            name: 'Tầng 2',
-            isActive: 1,
-            createdTime: 1574113100000,
-            updatedTime: 1574117700000,
-        },
-        {
-            id: '04',
-            name: 'Tầng 3',
-            isActive: 0,
-            createdTime: 1574153100000,
-            updatedTime: 1574197700000,
-        },
-    ]
 }
 
 export const AddEmployeeModal = ({visibility = true, selectedEmployee, typesOfEmployee, onOK = f => f, onCancel = f => f, loading}) => {

@@ -5,161 +5,75 @@ import ComponentContainer from '../components/ComponentContainer';
 import PageTemplate from '../components/PageTemplate'
 import { Departments } from '../components/ListRecords'
 import { DepartmentModal } from '../components/Modal';
+import { Spin } from 'antd';
+import { connect } from 'react-redux';
+import {changeModalVisibility, callFetchData, changeSelectedDepartmentInfo, callAddData, callEditData, callDeleteData, callSearchData, departmentSort, callChangePage, departmentSelect} from '../actions/department'
 
 class Department extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            modalVisibility: false,
-            pageNo: 1,
-            searchKey: "",
-            selectedDepartment: undefined,
-            departments: [
-                {
-                    id: '01',
-                    name: 'Tầng trệt',
-                    isActive: 1,
-                    createdTime: 1574192100000,
-                    updatedTime: 1574195700000,
-                },
-                {
-                    id: '02',
-                    name: 'Tầng 1',
-                    isActive: 1,
-                    createdTime: 1574196100000,
-                    updatedTime: 1574199700000,
-                },
-                {
-                    id: '03',
-                    name: 'Tầng 2',
-                    isActive: 1,
-                    createdTime: 1574113100000,
-                    updatedTime: 1574117700000,
-                },
-                {
-                    id: '04',
-                    name: 'Tầng 3',
-                    isActive: 0,
-                    createdTime: 1574153100000,
-                    updatedTime: 1574197700000,
-                },
-            ]
-        }
-        this.changeModalVisibility = this.changeModalVisibility.bind(this)
-        this.onShowModal = this.onShowModal.bind(this)
-        this.onOk = this.onOk.bind(this)
-        this.onSort = this.onSort.bind(this)
-        this.onRemove = this.onRemove.bind(this)
-        this.onChangePage = this.onChangePage.bind(this)
-        this.onChangeStatus = this.onChangeStatus.bind(this)
-        this.onInputSearchKey = this.onInputSearchKey.bind(this)
-        this.onClickRecord = this.onClickRecord.bind(this)
-        this.removeSelectedDepartment = this.removeSelectedDepartment.bind(this)
-        this.onCancel = this.onCancel.bind(this)
-        this.onTextChange = this.onTextChange.bind(this)
+    
+    componentDidMount(){
+        this.props.onFetchData();
     }
 
-    changeModalVisibility() {
-        this.setState(prevState => ({ modalVisibility: !prevState.modalVisibility }))
+    componentWillReceiveProps(nextProps){
+        if(this.props.pageNo != nextProps.pageNo)
+            this.props.onFetchData()
     }
-    onShowModal() {
-        this.setState({ modalVisibility: true })
-    }
-    onOk(selected, title) {
-        this.setState(prevState => {
-            if (prevState.selectedDepartment.id != undefined && prevState.selectedDepartment.id != null) {
-                return ({
-                    departments: prevState.departments.map(department =>
-                        department.id == prevState.selectedDepartment.id ? { ...department, name: prevState.selectedDepartment.name, updatedTime: new Date() } : department)
-                })
-            }
-            else {
-                return ({
-                    departments: [
-                        ...prevState.departments,
-                        {
-                            ...prevState.selectedDepartment,
-                            id: Math.random(),
-                            isActive: 1,
-                            createdTime: new Date(),
-                            updatedTime: new Date()
-                        }
-                    ]
-                })
-            }
-        })
-        this.changeModalVisibility()
-        this.removeSelectedDepartment()
-    }
-    onCancel() {
-        this.removeSelectedDepartment()
-        this.changeModalVisibility()
-    }
-    removeSelectedDepartment() {
-        this.setState({
-            selectedCategory: undefined
-        })
-    }
-    onSort() {
-        this.setState(prevState =>
-            ({ departments: [...prevState.departments].sort((a, b) => a["name"] < b["name"] ? -1 : 1) }))
-    }
-    onRemove(id) {
-        this.setState(prevState => ({
-            departments: prevState.departments.filter(department => department.id != id)
-        }))
-    }
-    onChangeStatus(id) {
-        this.setState(prevState => ({
-            departments: prevState.departments.map(department => department.id != id ? department : { ...department, isActive: department.isActive ? 0 : 1 })
-        }))
-    }
-    onChangePage(newPageNo) {
-        this.setState({ pageNo: newPageNo })
-    }
-    onInputSearchKey(key) {
-        this.setState({ searchKey: key.target.value })
-    }
-    onClickRecord(department) {
-        this.setState({
-            selectedDepartment: department,
-            modalVisibility: department ? true : false
-        })
-    }
-    onTextChange(value) {
-        this.setState(prevState => ({
-            selectedDepartment: { ...prevState.selectedDepartment, name: value }
-        }))
-    }
-
     render() {
-        const { modalVisibility, departments, pageNo, searchKey, selectedDepartment } = this.state
-        const { onShowModal, onOk, onSort, onRemove, onChangePage, onChangeStatus, onInputSearchKey, onClickRecord, onCancel, onTextChange } = this
+        const {modalVisibility, departments, pageNo, searchKey, selectedDepartment, loading} = this.props
+        const {onChangeModalVisibility, onSort, onAddData, onEditData, onDeleteData, onSearch, onChangePage, onClickRecord, onChangeSelectedDepartmentInfo} = this.props
         return (
             <PageTemplate>
                 <ComponentContainer selectedPart="Danh mục">
                     <div className="InputContainer">
-                        <SearchAddForm onShowModal={onShowModal} onInputSearchKey={onInputSearchKey}></SearchAddForm>
+                        <SearchAddForm onShowModal={onChangeModalVisibility} onInputSearchKey={onSearch}></SearchAddForm>
                     </div>
                     <div style={{ width: '100%' }}>
                         <DepartmentTableTitle onSort={onSort}></DepartmentTableTitle>
+                        {loading ?
+                        <div style ={{marginTop:'20px'}}>
+                            <Spin size="large" />
+                        </div> :
                         <Departments departments={departments}
                             pageNo={pageNo}
                             searchKey={searchKey}
-                            onRemove={onRemove}
+                            onRemove={onDeleteData}
                             onChangePage={onChangePage}
-                            onChangeActiveStatus={onChangeStatus}
+                            onChangeActiveStatus={onEditData}
                             onClickRecord={onClickRecord}></Departments>
+                        }
                         <DepartmentModal selectedDepartment={selectedDepartment}
                             visibility={modalVisibility}
-                            onCancel={onCancel}
-                            onOk={onOk}
-                            onTextChange={onTextChange}></DepartmentModal>
+                            onCancel={onChangeModalVisibility}
+                            onAddData = {onAddData}
+                            onEditData = {onEditData}
+                            onTextChange={onChangeSelectedDepartmentInfo}></DepartmentModal>
                     </div>
                 </ComponentContainer>
             </PageTemplate>
         )
     }
 }
+const mapStateToProps = (state) => ({
+    modalVisibility: state.department.modalVisibility,
+    departments: state.department.departments,
+    pageNo: state.department.pg_page,
+    searchKey: state.department.search_key,
+    selectedDepartment: state.department.selectedDepartment,
+    loading: state.department.loading
+})
 
-export default Department
+const mapDispatchToProps = (dispatch) => ({
+    onChangeModalVisibility: () => dispatch(changeModalVisibility()),
+    onFetchData: (searchKey, pageNo, pageSize) => dispatch(callFetchData(searchKey, pageNo, pageSize)),
+    onAddData: (name) => dispatch(callAddData(name)),
+    onEditData: (department) => dispatch(callEditData(department.id, department.name, department.is_active)),
+    onDeleteData: (id) => dispatch(callDeleteData(id)),
+    onSearch: (searchKey) => dispatch(callSearchData(searchKey)),
+    onSort: () => dispatch(departmentSort()),
+    onChangePage: (pageNo) => dispatch(callChangePage(pageNo-1)),
+    onClickRecord: (department) => dispatch(departmentSelect(department)),
+    onChangeSelectedDepartmentInfo: (value) => dispatch(changeSelectedDepartmentInfo(value))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Department)
