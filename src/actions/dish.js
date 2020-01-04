@@ -162,7 +162,7 @@ export const callEditData = (id, name, price, categoryId, img, describe, isActiv
     form.append('category', categoryId)
     form.append('img', img)
     form.append('describe', describe)
-    form.append('is_active', isActive)
+    form.append('is_active', isActive == "1")
     return api_1.post('dish/edit', form, {header : {
         'content-type': `multipart/form-data; boundary=${form._boundary}`}})
         .then(res => {
@@ -247,9 +247,9 @@ export const callDeleteData = (id) => dispatch => {
 }
 
 export const callSearchData = (searchKey) => dispatch => {
-
+    console.log("search key: ", searchKey)
     dispatch(dishSearch(searchKey))
-    callFetchData()
+    //callFetchData()
     //call api get dish
 }
 

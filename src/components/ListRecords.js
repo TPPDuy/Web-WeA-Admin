@@ -5,51 +5,41 @@ import { getPageData } from '../utils/utils'
 import { Pagination } from 'antd';
 
 export const Departments = ({ departments = [], pageNo, searchKey, onChangeActiveStatus = f => f, onClickRecord=f=>f, onRemove = f => f, onChangePage = f => f }) => {
-    let renderedData = departments
-    if(searchKey!==""){
-        renderedData = renderedData.filter(department => department.name.toLowerCase().includes(searchKey.toLowerCase()))
-    }
-    let paginationData = getPageData(renderedData, pageNo, 5)
     return (
         <div>
             {(departments.length === 0) ?
                 <p style={{ marginTop: '30px' }}>Không có bộ phận nào, hãy thêm bộ phận mới</p> :
-                paginationData.map((department, index) =>
+                departments.map((department, index) =>
                     <Department key={department.id}
-                        index={(pageNo - 1) * 5 + index + 1}
+                        index={(pageNo) * 6 + index + 1}
                         department={department}
-                        onChangeActiveStatus={() => onChangeActiveStatus(department.id)}
+                        onChangeActiveStatus={() => onChangeActiveStatus({...department, is_active: department.is_active === 1 ? 0 : 1})}
                         onRemove={() => onRemove(department.id)}
                         onClickRecord={()=>onClickRecord(department)} />
                 )
             }
             <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
-                <Pagination simple defaultCurrent={1} total={renderedData.length} onChange={onChangePage} pageSize={5} />
+                <Pagination simple defaultCurrent={pageNo+1} total={100} onChange={onChangePage} pageSize={6} />
             </div>
         </div>)
 }
 
 export const Categories = ({ categories = [], pageNo, searchKey, onChangeActiveStatus = f => f, onClickRecord=f=>f, onRemove = f => f, onChangePage = f => f }) => {
-    let renderedData = categories
-    if(searchKey!==""){
-        renderedData = renderedData.filter(category => category.name.toLowerCase().includes(searchKey.toLowerCase()))
-    }
-    let paginationData = getPageData(renderedData, pageNo, 5)
     return (
         <div>
             {(categories.length === 0) ?
                 <p style={{ marginTop: '30px' }}>Không có danh mục, hãy thêm danh mục mới</p> :
-                paginationData.map((category, index) =>
+                categories.map((category, index) =>
                     <Category key={category.id}
-                        index={(pageNo - 1) * 5 + index + 1}
+                        index={pageNo * 6 + index + 1}
                         category={category}
-                        onChangeActiveStatus={() => onChangeActiveStatus(category.id)}
+                        onChangeActiveStatus={() => onChangeActiveStatus({...category, isActive: category.isActive === 1 ? 0 : 1})}
                         onRemove={() => onRemove(category.id)}
                         onClickRecord={()=>onClickRecord(category)} />
                 )
             }
             <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
-                <Pagination simple defaultCurrent={1} total={renderedData.length} onChange={onChangePage} pageSize={5} />
+                <Pagination simple defaultCurrent={pageNo+1} total={100} onChange={onChangePage} pageSize={6} />
             </div>
         </div>)
 }
@@ -64,14 +54,11 @@ export const Dishes = ({ dishes, pageNo, searchKey, onChangeActiveStatus = f => 
                         index={pageNo * 6 + index + 1}
                         dish={dish}
                         onChangeActiveStatus={() => {
-                            console.log("change active dish: ", {...dish, is_active: !dish.is_active})
+                            console.log("change active dish: ", {...dish, is_active: dish.is_active === 1 ? 0 : 1})
                             onChangeActiveStatus({...dish, is_active: !dish.is_active})
                             }}
                         onRemove={() => onRemove(dish._id)}
-                        onClickRecord={
-                            ()=>{
-                                onClickRecord(dish)
-                                console.log("selected dish", dish)}} />
+                        onClickRecord={()=>onClickRecord(dish)} />
                 )
             }
             <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
@@ -82,26 +69,21 @@ export const Dishes = ({ dishes, pageNo, searchKey, onChangeActiveStatus = f => 
 }
 
 export const Tables = ({ tables = [], pageNo, searchKey, onChangeActiveStatus = f => f, onClickRecord=f=>f, onRemove = f => f, onChangePage = f => f }) => {
-    let renderedData = tables
-    if(searchKey!==""){
-        renderedData = renderedData.filter(table => table.name.toLowerCase().includes(searchKey.toLowerCase()))
-    }
-    let paginationData = getPageData(renderedData, pageNo, 5)
     return (
         <div>
             {(tables.length === 0) ?
                 <p style={{ marginTop: '30px' }}>Không có bàn, hãy thêm bàn mới</p> :
-                paginationData.map((table, index) =>
+                tables.map((table, index) =>
                     <Table key={table.id}
-                        index={(pageNo - 1) * 5 + index + 1}
+                        index={(pageNo) * 5 + index + 1}
                         table={table}
-                        onChangeActiveStatus={() => onChangeActiveStatus(table.id)}
+                        onChangeActiveStatus={() => onChangeActiveStatus({...table, isActive: table.is_active === 1 ? 0 : 1})}
                         onRemove={() => onRemove(table.id)}
                         onClickRecord={()=>onClickRecord(table)} />
                 )
             }
             <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
-                <Pagination simple defaultCurrent={1} total={renderedData.length} onChange={onChangePage} pageSize={5}/>
+                <Pagination simple defaultCurrent={pageNo+1} total={100} onChange={onChangePage} pageSize={6}/>
             </div>
         </div>
     )

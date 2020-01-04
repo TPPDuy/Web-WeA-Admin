@@ -20,15 +20,15 @@ export const Department = ({index=0, department, onChangeActiveStatus=f=>f, onCl
             <Switch 
                     checkedChildren="Y" 
                     unCheckedChildren="N" 
-                    checked={(department.isActive ? true : false)}
+                    checked={(department.is_active === 1 ? true : false)}
                     onChange={onChangeActiveStatus}>
             </Switch>
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-            <div>{new Date(department.createdTime).toLocaleString()}</div>
+            <div>{new Date(department.created_at).toLocaleString()}</div>
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-            <div>{new Date(department.updatedTime).toLocaleString()}</div>
+            <div>{new Date(department.updated_at).toLocaleString()}</div>
         </Col>
         <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align"></Col>
 
@@ -47,7 +47,7 @@ export const Category = ({index=0, category, onChangeActiveStatus=f=>f, onClickR
             {index}
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-            <img className="ImageThumbnail" alt="category-thumbnail" src={(category.img) ? category.img : '/images/thumbnailHolder.png'}></img>
+            <img className="ImageThumbnail" alt="category-thumbnail" src={(category.image) ? category.image : '/images/thumbnailHolder.png'}></img>
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-left-align">
             <div className="name" onClick={onClickRecord}>{category.name}</div>
@@ -57,15 +57,15 @@ export const Category = ({index=0, category, onChangeActiveStatus=f=>f, onClickR
             <Switch 
                     checkedChildren="Y" 
                     unCheckedChildren="N" 
-                    checked={(category.isActive ? true : false)}
+                    checked={(category.isActive === 1 ? true : false)}
                     onChange={onChangeActiveStatus}>
             </Switch>
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-            <div>{new Date(category.createdTime).toLocaleString()}</div>
+            <div>{new Date(category.createdAt).toLocaleString()}</div>
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-            <div>{new Date(category.updatedTime).toLocaleString()}</div>
+            <div>{new Date(category.updatedAt).toLocaleString()}</div>
         </Col>
         <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align"></Col>
 
@@ -134,12 +134,12 @@ export const Table = ({index=0, table, onChangeActiveStatus=f=>f, onClickRecord=
             <Switch 
                     checkedChildren="Y" 
                     unCheckedChildren="N" 
-                    checked={(table.isActive ? true : false)}
+                    checked={(table.i_active ? true : false)}
                     onChange={onChangeActiveStatus}>
             </Switch>
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-            <div>{new Date(table.updatedTime).toLocaleString()}</div>
+            <div>{new Date(table.updated_at).toLocaleString()}</div>
         </Col>
 
         <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align"></Col>

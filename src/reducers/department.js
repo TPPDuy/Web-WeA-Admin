@@ -1,55 +1,62 @@
 import { CHANGE_MODAL_VISISBILITY, 
-    CATEGORY_CHANGE_PAGE, 
-    CATEGORY_SELECT, 
-    CATEGORY_SEARCH, 
-    CATEGORY_SORT, 
-    CATEGORY_CHANGE_SELECTED_CATEGORY, 
-    CATEGORY_FETCH_DATA,
-    CATEGORY_FETCH_DATA_SUCCESS,
-    CATEGORY_FETCH_DATA_FAIL,
-} from '../actions/category'
+    DEPARTMENT_CHANGE_PAGE, 
+    DEPARTMENT_SELECT, 
+    DEPARTMENT_SEARCH, 
+    DEPARTMENT_SORT, 
+    DEPARTMENT_CHANGE_SELECTED_DEPARTMENT, 
+    DEPARTMENT_FETCH_DATA,
+    DEPARTMENT_FETCH_DATA_SUCCESS,
+    DEPARTMENT_FETCH_DATA_FAIL,
+} from '../actions/department'
+import {notification} from 'antd'
 
 const initState = () => ({
     loading: false,
     error: false,
-    categories: [],
+    departments: [],
     modalVisibility: false,
     sortOrder: 1, //1: ascending - 0: descending
-    selectedCategory: {
+    selectedDepartment: {
         id: null,
         name: '',
-        image: '',
-        isActive: false
+        is_active: false
     },
     pg_page: 0,
     pg_size: 6,
     search_key: ''
 })
-const category = (state = initState(), action) => {
+const department = (state = initState(), action) => {
     switch(action.type){
-        case CATEGORY_FETCH_DATA:
+        case DEPARTMENT_FETCH_DATA:
             return {
                 ...state,
                 loading: true,
             }
-        case CATEGORY_FETCH_DATA_SUCCESS:
+        case DEPARTMENT_FETCH_DATA_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 error: false,
-                categories: [...action.categories],
+                departments: [...action.departments],
             }
-        case CATEGORY_FETCH_DATA_FAIL:
+        case DEPARTMENT_FETCH_DATA_FAIL:
+            notification.open({
+                message: 'Lỗi',
+                description: action.error,
+                onClick: () => {
+                  console.log('Notification Clicked!');
+                },
+              });
             return {
                 ...state,
-                loading: true,
+                loading: false,
                 error:true
             }
-        case CATEGORY_SELECT:
+        case DEPARTMENT_SELECT:
             return {
                 ...state,
                 modalVisibility: true,
-                selectedCategory: {
+                selectedDepartment: {
                     ...action.payload
                 }
             }
@@ -57,38 +64,38 @@ const category = (state = initState(), action) => {
             return {
                 ...state,
                 modalVisibility: !state.modalVisibility,
-                selectedCategory: state.modalVisibility === true ? {...state.selectedCategory} : undefined
+                selectedDepartment: state.modalVisibility === true ? {...state.selectedDepartment} : undefined
             }
-        case CATEGORY_CHANGE_PAGE:
+        case DEPARTMENT_CHANGE_PAGE:
             return {
                 ...state,
                 pg_page: action.pg_page
             }
-        case CATEGORY_SEARCH:
+        case DEPARTMENT_SEARCH:
             return {
                 ...state,
                 search_key: action.search_key,
                 pg_page: 0
             }
-        case CATEGORY_SORT:
+        case DEPARTMENT_SORT:
             if(state.sort === 1){
                 return {
                     ...state,
                     sort: 0,
-                    categories: [...state.categories].sort((a, b)=> a['name'] > b['name'] ? 1 : -1) //ascending
+                    departments: [...state.departments].sort((a, b)=> a['name'] > b['name'] ? 1 : -1) //ascending
                 }
             }
             else
                 return {
                     ...state,
                     sort: 1,
-                    categories: [...state.categories].sort((a, b)=> a['name'] < b['name'] ? 1 : -1) //descending
+                    departments: [...state.departments].sort((a, b)=> a['name'] < b['name'] ? 1 : -1) //descending
                 }
-        case CATEGORY_CHANGE_SELECTED_CATEGORY:
+        case DEPARTMENT_CHANGE_SELECTED_DEPARTMENT:
             return {
                 ...state,
-                selectedCategory: {
-                    ...state.selectedCategory,
+                selectedDepartment: {
+                    ...state.selectedDepartment,
                     name: action.value
                 }
             }
@@ -97,4 +104,4 @@ const category = (state = initState(), action) => {
     }
 }
 
-export default category
+export default department

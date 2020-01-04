@@ -1,8 +1,5 @@
 import {store} from '../index'
 import { api_1, api_2 } from '../api/api'
-// export const CATEGORY_ADD = 'CATEGORY_ADD'
-// export const CATEGORY_EDIT = 'CATEGORY_EDIT'
-// export const CATEGORY_DELETE = 'CATEGORY_DELETE'
 export const CATEGORY_SELECT = 'CATEGORY_SELECT'
 export const CATEGORY_SEARCH = 'CATEGORY_SEARCH'
 export const CATEGORY_SORT = 'CATEGORY_SORT'
@@ -17,28 +14,26 @@ export const changeModalVisibility = () => ({
     type: CHANGE_MODAL_VISISBILITY,
 })
 
-export const dishSelect = (id, name, img) => ({
+export const categorySelect = (category) => ({
     type: CATEGORY_SELECT,
-    id: id,
-    name:name,
-    img: img,
+    payload: category
 })
 
-export const dishChangePage = (pageNo) => ({
+export const categoryChangePage = (pageNo) => ({
     type: CATEGORY_CHANGE_PAGE,
     pg_page: pageNo
 })
 
-export const dishSearch = (search_key) => ({
+export const categorySearch = (search_key) => ({
     type: CATEGORY_SEARCH,
     search_key: search_key
 })
 
-export const dishSort = () => ({
+export const categorySort = () => ({
     type: CATEGORY_SORT,
 })
 
-export const changeSelectedDishName = (value) => ({
+export const changeSelectedCategoryInfo = (value) => ({
     type: CATEGORY_CHANGE_SELECTED_CATEGORY,
     value: value, 
 })
@@ -59,9 +54,9 @@ export const fetchDataFail = (err) => ({
 export const callFetchData = () => dispatch => {
     dispatch(fetchData())
     //call api get dish
-    let searchKey = store.getState().dish.search_key
-    let pageNo = store.getState().dish.pg_page
-    let pageSize = store.getState().dish.pg_size
+    let searchKey = store.getState().category.search_key
+    let pageNo = store.getState().category.pg_page
+    let pageSize = store.getState().category.pg_size
 
     
     return api_1.get('/category/index', {
@@ -90,7 +85,29 @@ export const callAddData = (name, img) => dispatch => {
     return api_1.post('category/create', form, {header : {
         'content-type': `multipart/form-data; boundary=${form._boundary}`}})
         .then(res => {
-            callFetchData()
+            dispatch(fetchData())
+            //call api get category
+            let searchKey = store.getState().category.search_key
+            let pageNo = store.getState().category.pg_page
+            let pageSize = store.getState().category.pg_size
+
+            
+            return api_1.get('/category/index', {
+                params: {
+                    pg_page: pageNo,
+                    pg_size: pageSize,
+                    search_name: searchKey
+                }
+            } , {
+                headers: {
+                    }
+            }).then(res => {
+                dispatch(fetchDataSuccess(res.data.categories))
+                console.log("category response", res.data.categories)
+            }).catch(err => {
+                console.log("dish error", err)
+                dispatch(fetchDataFail(err))
+            })
         })
         .catch(err => {
             dispatch(fetchDataFail(err))
@@ -100,15 +117,38 @@ export const callAddData = (name, img) => dispatch => {
 
 export const callEditData = (id, name, img, isActive) => dispatch => {
     //call api edit dish
+    console.log("edit category: ", id, name, isActive == "1")
     const form = new FormData()
     form.append('id', id)
     form.append('name', name)
     form.append('img', img)
-    form.append('is_active', isActive)
+    form.append('is_active', isActive == "1") 
     return api_1.post('category/edit', form, {header : {
         'content-type': `multipart/form-data; boundary=${form._boundary}`}})
         .then(res => {
-            callFetchData()
+            dispatch(fetchData())
+            //call api get category
+            let searchKey = store.getState().category.search_key
+            let pageNo = store.getState().category.pg_page
+            let pageSize = store.getState().category.pg_size
+
+            
+            return api_1.get('/category/index', {
+                params: {
+                    pg_page: pageNo,
+                    pg_size: pageSize,
+                    search_name: searchKey
+                }
+            } , {
+                headers: {
+                    }
+            }).then(res => {
+                dispatch(fetchDataSuccess(res.data.categories))
+                console.log("category response", res.data.categories)
+            }).catch(err => {
+                console.log("category error", err)
+                dispatch(fetchDataFail(err))
+            })
         })
         .catch(err => {
             dispatch(fetchDataFail(err))
@@ -118,12 +158,35 @@ export const callEditData = (id, name, img, isActive) => dispatch => {
 
 export const callDeleteData = (id) => dispatch => {
     //call api delete dish
+    console.log("delete category: ", id)
     const form = new FormData()
     form.append('id', id)
     return api_1.post('category/delete', form, {header : {
         'content-type': `multipart/form-data; boundary=${form._boundary}`}})
         .then(res => {
-            callFetchData()
+            dispatch(fetchData())
+            //call api get dish
+            let searchKey = store.getState().category.search_key
+            let pageNo = store.getState().category.pg_page
+            let pageSize = store.getState().category.pg_size
+
+            
+            return api_1.get('/category/index', {
+                params: {
+                    pg_page: pageNo,
+                    pg_size: pageSize,
+                    search_name: searchKey
+                }
+            } , {
+                headers: {
+                    }
+            }).then(res => {
+                dispatch(fetchDataSuccess(res.data.categories))
+                console.log("category response", res.data.categories)
+            }).catch(err => {
+                console.log("dish error", err)
+                dispatch(fetchDataFail(err))
+            })
         })
         .catch(err => {
             dispatch(fetchDataFail(err))
@@ -131,14 +194,34 @@ export const callDeleteData = (id) => dispatch => {
 
 }
 
-export const callSearchData = (searchKey) => dispatch => {
-    dispatch(dishSearch(searchKey))
-    callFetchData()
-    //call api get dish
+export const callSearchData = (key) => dispatch => {
+    // dispatch(categorySearch(key))
+    // dispatch(fetchData())
+    // //call api get category
+    // let searchKey = store.getState().category.search_key
+    // let pageNo = store.getState().category.pg_page
+    // let pageSize = store.getState().category.pg_size
+
+    // console.log("search key: ", searchKey)
+    // api_1.get('/category/index', {
+    //     params: {
+    //         pg_page: pageNo,
+    //         pg_size: pageSize,
+    //         search_name: searchKey
+    //     }
+    // } , {
+    //     headers: {
+    //         }
+    // }).then(res => {
+    //     dispatch(fetchDataSuccess(res.data.categories))
+    //     console.log("category response", res.data.categories)
+    // }).catch(err => {
+    //     console.log("dish error", err)
+    //     dispatch(fetchDataFail(err))
+    // })
 }
 
-export const callChangePage = (pageNo) => dispatch => {
-    dispatch(dishChangePage(pageNo));
-    dispatch(fetchData());
-    //call api fetch next page
+export const callChangePage = (page) => dispatch => {
+    console.log("change page: ", page)
+    dispatch(categoryChangePage(page));
 }
