@@ -9,6 +9,7 @@ import Bill from '../../pages/Bill'
 import Dish from '../../pages/Dish'
 import Table from '../../pages/Table'
 import Employee from '../../pages/Employee'
+import PrivateRoute from '../PrivateRoute'
 
 export default class App extends Component {
   render(){
@@ -18,13 +19,41 @@ export default class App extends Component {
             <Route exact path="/">
               <Redirect to="/thongke"/>
             </Route>
-            <Route path="/thongke" component={Statistic} />
-            <Route path="/bophan" component ={Department}/>
-            <Route path="/ban" component ={Table}/>
-            <Route path="/danhmuc" component={Category} />
-            <Route path="/hoadon" component={Bill} />
-            <Route path="/monan" component={Dish}/>
-            <Route path="/nhanvien" component={Employee}/>
+            <PrivateRoute              
+                exact
+                path="/thongke"
+                component={Statistic}
+            />
+            <PrivateRoute              
+                exact
+                path="/bophan"
+                component={Department}
+            />
+            <PrivateRoute              
+                exact
+                path="/ban"
+                component={Table}
+            />
+            <PrivateRoute              
+                exact
+                path="/danhmuc"
+                component={Category}
+            />
+            <PrivateRoute              
+                exact
+                path="/hoadon"
+                component={Bill}
+            />
+            <PrivateRoute              
+                exact
+                path="/monan"
+                component={Dish}
+            />
+            <PrivateRoute              
+                exact
+                path="/nhanvien"
+                component={Employee}
+            />
             <Route path="/login" component={Login} />            
           </Switch>
       </Router>

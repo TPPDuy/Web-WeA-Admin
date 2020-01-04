@@ -190,6 +190,7 @@ export const Employee = ({ index = 0, employee, onChangeActiveStatus = f => f, o
             name: 'Quản trị'
         }
     ]
+    let checkedValue = employee.active === 0 ? false : true
     return (
     <Container fluid="true">
         <Row style={{alignItems:'center', paddingTop:'20px', paddingBottom:'20px', backgroundColor:(index%2===0) ? 'rgba(242, 242, 242, 0.55)' : '#ffffff'}}>
@@ -206,14 +207,14 @@ export const Employee = ({ index = 0, employee, onChangeActiveStatus = f => f, o
                 <div>{(typesOfEmployee.find(e => e.level === employee.level)).name}</div>
             </Col>
             <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-                <div>{new Date(employee.created_at).toLocaleString()}</div>
+                <div>{seconds2Date(employee.created_at).toLocaleString()}</div>
             </Col>
             <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-center-align">
                 <Switch 
                     checkedChildren="Y" 
                     unCheckedChildren="N" 
                     loading={loading}
-                    defaultChecked={error? employee.active : employee.active}
+                    defaultChecked={error? checkedValue : checkedValue}
                     onChange={onChangeActiveStatus}>
                 </Switch>
             </Col>        

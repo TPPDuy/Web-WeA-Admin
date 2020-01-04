@@ -36,7 +36,10 @@ class Statistic extends Component {
             label: e.fullname,
         }))
         return (
-            <PageTemplate>
+            <PageTemplate paths={[
+                "Quản lý","Thống kê"
+            ]}
+            >
                 <ComponentContainer selectedPart="Thống kê">
                     <Row className="nomargin">
                         <Col lg="2" className="d-flex flex-row justify-content-start align-items-center nopadding">

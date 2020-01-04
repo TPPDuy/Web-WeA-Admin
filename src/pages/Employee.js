@@ -96,7 +96,9 @@ class Employee extends Component{
             handleChangeStatus
         } = this.props
         return (
-            <PageTemplate>
+            <PageTemplate paths={[
+                "Nhân sự","Nhân viên"
+            ]}>
                 <ComponentContainer selectedPart="Nhân viên">
                     <Row className="nomargin">
                         <div className="employee-create-btn" onClick={handleOpenAddEmployeeModal}>

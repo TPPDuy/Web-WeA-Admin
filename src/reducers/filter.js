@@ -21,10 +21,14 @@ const filter = (state = initFilter(), action) => {
     switch (action.type) {
         case DEFAULT_TIME_FILTER:
             if(typeof action.startDate !== 'undefined' && action.startDate !== null){
+                let startDate = new Date(action.startDate)
+                startDate.setHours(0,0,0,0)
+                let endDate = new Date(action.endDate)
+                endDate.setHours(23,59,59,999)
                 return {
                     ...state,
-                    startDate: parseInt(action.startDate.getTime()/1000),
-                    endDate: parseInt(action.endDate.getTime()/1000)
+                    startDate: parseInt(startDate.getTime()/1000),
+                    endDate: parseInt(endDate.getTime()/1000)
                 }
             }else{
                 return {
@@ -37,16 +41,16 @@ const filter = (state = initFilter(), action) => {
         case DEFINED_TIME_FILTER: {
             let startDate, endDate, dateFilterOption = action.dateFilterOption            
             if (dateFilterOption !== "0") {
-                endDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
-                let d
+                endDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1)
+                let d = 1
                 switch (dateFilterOption) {
-                    case "1": d = 0; break;
-                    case "2": d = 1; break;
-                    case "3": d = 3; break;
-                    case "4": d = 7; break;
-                    case "5": d = 14; break;
-                    case "6": d = 30; break;
-                    case "7": d = 60; break;
+                    case "1": d += 0; break;
+                    case "2": d += 1; break;
+                    case "3": d += 3; break;
+                    case "4": d += 7; break;
+                    case "5": d += 14; break;
+                    case "6": d += 30; break;
+                    case "7": d += 60; break;
                     default: break;
                 }
                 startDate = new Date(endDate)
@@ -78,11 +82,6 @@ const filter = (state = initFilter(), action) => {
                 case "3" : employeeFilterValue = action.searchValue; break;
                 default: totalValue = parseInt(action.searchValue); break;
             }
-            // console.log("Bill ID:", billIDValue, 
-            //     "\nTotal :", totalValue, 
-            //     "\nEmployee name: ", employeeFilterValue,
-            //     "\nStart date: ", action.startDate,
-            //     "\nEnd date: ", action.endDate)
             return {
                 ...state,
                 billIDValue,

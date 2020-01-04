@@ -3,12 +3,14 @@ import { Container, Row, Col } from 'react-bootstrap'
 import Header from './Header'
 import MainMenu from './MainMenu'
 import Path from './PathInfo'
+import { getUsernameFromStorage } from '../utils/utils'
 
 class DashBoard extends Component {
     constructor(props) {
         super(props)
         this.state = {
             collapseSideBar: false,
+            username: getUsernameFromStorage()
         }
         this.collapse = this.collapse.bind(this)
     }
@@ -17,12 +19,13 @@ class DashBoard extends Component {
         this.setState(prevState => ({ collapseSideBar: !prevState.collapseSideBar }))
     }
     render() {
-        const { collapseSideBar} = this.state
+        const { collapseSideBar, username} = this.state
         const { collapse } = this
+        const { paths } = this.props
         return (
             <Container className="App" fluid="true">
                 <Row>
-                    <Header name="UserName" onCollapse={collapse}></Header>
+                    <Header name={username} onCollapse={collapse}></Header>
                 </Row>
 
                 <Row style={{height: '100vh'}}>
@@ -37,7 +40,8 @@ class DashBoard extends Component {
                             <div style={{width: '100%', height:'1px', backgroundColor: '#BDBDBD'}}></div>
                         </Row>
                         <Row>
-                            <Path path="Website quản lý nhà hàng WeA - Shiba Team"></Path>
+                            <Path paths={paths}>
+                            </Path>
                         </Row>
                         <Row>
                             {this.props.children}

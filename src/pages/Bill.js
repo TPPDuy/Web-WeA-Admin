@@ -29,7 +29,9 @@ class Bill extends Component {
             handleSort
         } = this.props
         return (
-            <PageTemplate>
+            <PageTemplate paths={[
+                "Quản lý","Hóa đơn"
+            ]}>
                 <ComponentContainer selectedPart="Hóa đơn">
                     <Row className="nomargin">
                         <div style={{marginLeft: 'auto'}}>

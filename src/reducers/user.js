@@ -20,7 +20,11 @@ import {
     USER_OPEN_CREATE_MODAL,
     USER_CLOSE_CREATE_MODAL,
     USER_OPEN_EDIT_MODAL,
-    USER_CLOSE_EDIT_MODAL
+    USER_CLOSE_EDIT_MODAL,
+    USER_UPDATE_INFO,
+    USER_LOGIN_BEGIN,
+    USER_LOGIN_SUCCESS,
+    USER_LOGIN_FAILURE
 } from '../actions/user'
 
 const initUsers = () => ({
@@ -50,7 +54,8 @@ const initUsers = () => ({
         username: "",
         fullName: "",
         level: ""
-    }
+    },
+    user: {}
 })
 
 const user = (state = initUsers(), action) => {
@@ -203,6 +208,25 @@ const user = (state = initUsers(), action) => {
             return{
                 ...state,
                 editVisibility: false
+            }
+        case USER_LOGIN_BEGIN:
+            return {
+                ...state,
+                loading: true,
+                error: null
+            }
+        case USER_LOGIN_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                user: action.user
+            }
+        case USER_LOGIN_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
             }
         default:
             return state

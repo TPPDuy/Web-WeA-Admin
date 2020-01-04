@@ -25,6 +25,9 @@ export const USER_OPEN_CREATE_MODAL = 'USER_OPEN_CREATE_MODAL'
 export const USER_CLOSE_CREATE_MODAL = 'USER_CLOSE_CREATE_MODAL'
 export const USER_OPEN_EDIT_MODAL = 'USER_OPEN_EDIT_MODAL'
 export const USER_CLOSE_EDIT_MODAL = 'USER_CLOSE_EDIT_MODAL'
+export const USER_LOGIN_BEGIN = 'USER_LOGIN_BEGIN'
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
+export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE'
 
 export const employee_fetch_data_begin = () => ({
     type: EMPLOYEE_FETCH_DATA_BEGIN
@@ -88,6 +91,17 @@ export const user_edit_success = () => ({
 })
 export const user_edit_failure = (error) => ({
     type: USER_EDIT_FAILURE,
+    error
+})
+export const user_login_begin = () => ({
+    type: USER_LOGIN_BEGIN
+})
+export const user_login_success = (user) => ({
+    type: USER_LOGIN_SUCCESS,
+    user
+})
+export const user_login_failure = (error) => ({
+    type: USER_LOGIN_FAILURE,
     error
 })
 
@@ -252,3 +266,5 @@ export const handle_delete_user = (id) => dispatch => {
             toast.error('Xóa nhân viên thất bại!')
         })
 }
+
+
