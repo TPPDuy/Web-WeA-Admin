@@ -4,6 +4,7 @@ import axios from 'axios'
 
 export const host_1 = "https://shiba-rest-server.herokuapp.com"
 export const host_2= "https://erestaurant-userbe.herokuapp.com"
+export const host_image = "https://shiba-rest-server.herokuapp.com"
 
 export const host_api_1 = `${host_1}/v1/`
 export const host_api_2 = `${host_2}/v1/`

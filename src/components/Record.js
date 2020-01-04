@@ -4,6 +4,7 @@ import {Switch} from 'antd'
 import PropTypes from 'prop-types'
 import 'antd/dist/antd.css';
 import { seconds2Date } from '../utils/utils'
+import {host_image } from '../api/api'
 
 export const Department = ({index=0, department, onChangeActiveStatus=f=>f, onClickRecord=f=>f, onRemove=f=>f}) =>
 <Container fluid="true">
@@ -83,7 +84,7 @@ export const Dish = ({index=0, dish, onChangeActiveStatus=f=>f, onClickRecord=f=
             {index}
         </Col>
         <Col lg ="1" md="2" sm="2" xs="2" className="TableTitle-center-align">
-            <img className="ImageThumbnail" alt="category-thumbnail" src={(dish.img) ? dish.img : '/images/thumbnailHolder.png'}></img>
+            <img className="ImageThumbnail" alt="category-thumbnail" src={(dish.image) ? host_image + dish.image : '/images/thumbnailHolder.png'}></img>
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
             <div className="name" onClick={onClickRecord}>{dish.name}</div>
@@ -98,12 +99,12 @@ export const Dish = ({index=0, dish, onChangeActiveStatus=f=>f, onClickRecord=f=
             <Switch 
                     checkedChildren="Y" 
                     unCheckedChildren="N" 
-                    checked={(dish.isActive ? true : false)}
+                    checked={(dish.is_active === 1 ? true : false)}
                     onChange={onChangeActiveStatus}>
             </Switch>
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-            <div>{new Date(dish.updatedTime).toLocaleString()}</div>
+            <div>{new Date(dish.updated_at).toLocaleString()}</div>
         </Col>
 
         <Col lg ="1" md="1" sm="1" xs="1" className="TableTitle-right-align"></Col>

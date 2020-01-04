@@ -109,25 +109,47 @@ export const CategoryModal = ({ visibility = false, selectedCategory, onOk = f =
         </Modal>)
 }
 
-export const DishModal = ({ visibility = true, selectedDish, categories, onOk = f => f, onCancel = f => f, onTextChange=f=>f }) => {
-    let name, price, category, describe;
+export const DishModal = ({ visibility = true, selectedDish, categories, onAddData = f => f, onEditData = f => f, onCancel = f => f, onTextChange=f=>f }) => {
+    let name, price;
+    var category
     const [image, setImage] = useState(null);
     const inputRef = useRef(null);
-    {
-        selectedDish ? category = selectedDish.category : category = undefined
-    }
+    // {
+    //     selectedDish ? category = selectedDish.category : category = undefined
+    // }
     const onSubmit = e => {
         e.preventDefault()
-        console.log(selectedDish, name.value, price.value, category, describe.value)
-        onOk(selectedDish, name.value, price.value, category, describe.value)
+        console.log("info", selectedDish, name.value, price.value, category)
+        if(selectedDish !== undefined && selectedDish !== null && selectedDish._id!=null){
+            console.log("edit data: ", {...selectedDish, 
+                name: name.value, 
+                category: {
+                    ...selectedDish.category,
+                    _id: category
+                }, 
+                price: price.value, 
+                image: image != null && image != undefined ? image : null 
+            })
+            onEditData({...selectedDish, 
+                name: name.value, 
+                category: {
+                    ...selectedDish.category,
+                    _id: category
+                }, 
+                price: price.value, 
+                image: image != null && image != undefined ? image : null 
+            })
+        }
+        else
+            onAddData(name.value, price.value, category, image, '')
         name.value = ''
         price.value = ''
-        describe.value = ''
+        onCancel()
     }
-    console.log(selectedDish)
-    console.log(category)
-    const onSelectCategory = category => {
-        category = category
+    console.log("selected dish", selectedDish)
+    const onSelectCategory = c => {
+        console.log("selected category: ", c)
+        category = c
     }
     const onUploadFileBTNClick = e => {
         inputRef.current.click();
@@ -144,7 +166,7 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
         <Modal
             title="Tạo mới / Chỉnh sửa món ăn"
             visible={visibility}
-            onOk={onOk}
+            onOk={onSubmit}
             onCancel={onCancel}
             footer={[
                 <button key="cancel" className="cancel-button" onClick={onCloseModal}>
@@ -193,7 +215,7 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
                             style={{ width: '100%' }}
                             placeholder="Chọn danh mục"
                             optionFilterProp="children"
-                            defaultValue = {category ? selectedDish.category.name : ""}
+                            //value={category ? category : categories[0]}
                             filterOption={(input, option) =>
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
                             {
@@ -217,18 +239,19 @@ export const DishModal = ({ visibility = true, selectedDish, categories, onOk = 
                         src={URL.createObjectURL(image)}></img>
                     :
                     <img style={{ maxWidth: '90px', maxHeight: '90px' }}
-                        src={(selectedDish !== undefined && selectedDish !== null && selectedDish.img !== "") ? selectedDish.img : './images/imagePlaceholder.svg'}></img>
+                        src={(selectedDish !== undefined && selectedDish !== null && selectedDish.img && selectedDish.img !== '') ? selectedDish.img : './images/imagePlaceholder.svg'}></img>
                     }
                 </Row>
-                <Row style={{ marginTop: '16px', paddingLeft: '15px' }}>Mô tả:</Row>
+                {/* <Row style={{ marginTop: '16px', paddingLeft: '15px' }}>Mô tả:</Row>
                 <Row style={{ marginTop: '16px', paddingLeft: '15px' }}>
                     <TextArea
                         placeholder="Nhập mô tả"
                         autoSize={{ minRows: 4, maxRows: 10 }}
                         style={{ paddingTop: '10px', border: '1px solid #BDBDBD' }}
                         ref={TextArea => describe = TextArea}
+                        value = {selectedDish? selectedDish.desc : ''}
                         onChange={e=>onTextChange(e.target.value, 'describe')} />
-                </Row>
+                </Row> */}
             </Container>
         </Modal>)
 }
@@ -296,38 +319,6 @@ export const TableModal = ({ visibility = true, selectedTable, departments, onOk
                 </Row>
             </Container>
         </Modal>)
-}
-
-DishModal.propTypes = {
-    categories: PropTypes.object
-}
-DishModal.defaultProps = {
-    categories: [
-        {
-            id: '01',
-            img: 'http://bit.ly/37dkZr3',
-            name: 'Rau củ',
-            isActive: 1,
-            createdTime: 1574192100000,
-            updatedTime: 1574195700000,
-        },
-        {
-            id: '02',
-            img: 'http://bit.ly/37n9CN5',
-            name: 'Thịt',
-            isActive: 1,
-            createdTime: 1574196100000,
-            updatedTime: 1574199700000,
-        },
-        {
-            id: '03',
-            img: 'http://bit.ly/35kKsgb',
-            name: 'Hải sản',
-            isActive: 1,
-            createdTime: 1574113100000,
-            updatedTime: 1574117700000,
-        }
-    ]
 }
 
 TableModal.defaultProps = {

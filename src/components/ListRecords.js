@@ -54,27 +54,28 @@ export const Categories = ({ categories = [], pageNo, searchKey, onChangeActiveS
         </div>)
 }
 
-export const Dishes = ({ dishes = [], pageNo, searchKey, onChangeActiveStatus = f => f, onClickRecord=f=>f, onRemove = f => f, onChangePage = f => f }) => {
-    let renderedData = dishes
-    if(searchKey!==""){
-        renderedData = renderedData.filter(dish => dish.name.toLowerCase().includes(searchKey.toLowerCase()))
-    }
-    let paginationData = getPageData(renderedData, pageNo, 5)
+export const Dishes = ({ dishes, pageNo, searchKey, onChangeActiveStatus = f => f, onClickRecord=f=>f, onRemove = f => f, onChangePage = f => f }) => {
     return (
         <div>
             {(dishes.length === 0) ?
                 <p style={{ marginTop: '30px' }}>Không có món ăn, hãy thêm món ăn mới</p> :
-                paginationData.map((dish, index) =>
+                dishes.map((dish, index) =>
                     <Dish key={dish.id}
-                        index={(pageNo - 1) * 5 + index + 1}
+                        index={pageNo * 6 + index + 1}
                         dish={dish}
-                        onChangeActiveStatus={() => onChangeActiveStatus(dish.id)}
-                        onRemove={() => onRemove(dish.id)}
-                        onClickRecord={()=>onClickRecord(dish)} />
+                        onChangeActiveStatus={() => {
+                            console.log("change active dish: ", {...dish, is_active: !dish.is_active})
+                            onChangeActiveStatus({...dish, is_active: !dish.is_active})
+                            }}
+                        onRemove={() => onRemove(dish._id)}
+                        onClickRecord={
+                            ()=>{
+                                onClickRecord(dish)
+                                console.log("selected dish", dish)}} />
                 )
             }
             <div className="mt-3 mb-1 w-100 d-flex flex-row justify-content-center align-items-center">
-                <Pagination simple defaultCurrent={1} total={renderedData.length} onChange={onChangePage} pageSize={5}/>
+                <Pagination simple defaultCurrent={pageNo+1} total={100} onChange={onChangePage} pageSize={6}/>
             </div>
         </div>
     )
