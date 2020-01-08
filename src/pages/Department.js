@@ -23,8 +23,10 @@ class Department extends Component {
         const {modalVisibility, departments, pageNo, searchKey, selectedDepartment, loading} = this.props
         const {onChangeModalVisibility, onSort, onAddData, onEditData, onDeleteData, onSearch, onChangePage, onClickRecord, onChangeSelectedDepartmentInfo} = this.props
         return (
-            <PageTemplate>
-                <ComponentContainer selectedPart="Danh mục">
+            <PageTemplate paths={[
+                "Nhà hàng","Bộ phận"
+            ]}>
+                <ComponentContainer selectedPart="Bộ phận">
                     <div className="InputContainer">
                         <SearchAddForm onShowModal={onChangeModalVisibility} onInputSearchKey={onSearch}></SearchAddForm>
                     </div>

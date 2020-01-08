@@ -26,7 +26,9 @@ class Dish extends Component {
         const {onChangeModalVisibility, onSort, onSearch, onChangePage, onAddData, onEditData, onDeleteData, onClickRecord, onChangeSelectedDishInfo} = this.props;
         console.log("dishes", dishes)
         return (
-            <PageTemplate>
+            <PageTemplate paths={[
+                "Nhà hàng","Món ăn"
+            ]}>
                 <ComponentContainer selectedPart="Món ăn">
                     <div className="InputContainer">
                         <SearchAddForm onShowModal={onChangeModalVisibility} onInputSearchKey={onSearch}></SearchAddForm>

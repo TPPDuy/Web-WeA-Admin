@@ -23,7 +23,9 @@ class Table extends Component {
         const { modalVisibility, tables, departments, pageNo, searchKey, selectedTable, loading } = this.props;
         const { onChangeModalVisibility, onAddData, onEditData, onSort, onDeleteData, onChangePage, onSearch, onClickRecord, onCancel, onChangeSelectedTableInfo } = this.props
         return (
-            <PageTemplate>
+            <PageTemplate paths={[
+                "Nhà hàng","Bàn"
+            ]}>
                 <ComponentContainer selectedPart="Món ăn">
                     <div className="InputContainer">
                         <SearchAddForm onShowModal={onChangeModalVisibility} onInputSearchKey={onSearch}></SearchAddForm>

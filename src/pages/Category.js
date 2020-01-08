@@ -22,7 +22,9 @@ class Category extends Component {
         const { modalVisibility, categories, pageNo, searchKey, selectedCategory, loading } = this.props;
         const {onChangeModalVisibility, onSort, onSearch, onChangePage, onAddData, onEditData, onDeleteData, onClickRecord, onChangeSelectedCategoryInfo} = this.props;
         return (
-            <PageTemplate>
+            <PageTemplate paths={[
+                "Nhà hàng","Danh mục"
+            ]}>
                 <ComponentContainer selectedPart="Danh mục">
                     <div className="InputContainer">
                         <SearchAddForm onShowModal={onChangeModalVisibility} onInputSearchKey={onSearch}></SearchAddForm>

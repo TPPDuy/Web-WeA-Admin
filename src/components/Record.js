@@ -47,7 +47,7 @@ export const Category = ({index=0, category, onChangeActiveStatus=f=>f, onClickR
             {index}
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-center-align">
-            <img className="ImageThumbnail" alt="category-thumbnail" src={(category.image) ? category.image : '/images/thumbnailHolder.png'}></img>
+            <img className="ImageThumbnail" alt="category-thumbnail" src={(category.image) ? host_image + category.image : '/images/thumbnailHolder.png'}></img>
         </Col>
         <Col lg ="2" md="2" sm="2" xs="2" className="TableTitle-left-align">
             <div className="name" onClick={onClickRecord}>{category.name}</div>
